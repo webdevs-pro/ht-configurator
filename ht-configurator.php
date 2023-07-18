@@ -3,7 +3,7 @@
  * Plugin Name: Hot Tube Configurator
  * Plugin URI: https://your-website.com/
  * Description: This is a plugin to provide a Hot Tube configuration shortcode.
- * Version: 0.0.1
+ * Version: 0.0.2
  * Author: Alex Ishchenko
  * Author URI: https://website.cv.ua/
  * License: GPL2
@@ -15,6 +15,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 require 'vendor/autoload.php';
+require 'metabox-fields.php';
 require 'shortcode.php';
 
 /**
