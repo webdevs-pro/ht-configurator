@@ -3,7 +3,7 @@
  * Plugin Name: Hot Tube Configurator
  * Plugin URI: https://your-website.com/
  * Description: This is a plugin to provide a Hot Tube configuration shortcode.
- * Version: 0.0.2
+ * Version: 0.0.3
  * Author: Alex Ishchenko
  * Author URI: https://website.cv.ua/
  * License: GPL2
@@ -14,17 +14,19 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+
+if ( ! function_exists( 'get_plugin_data' ) ) {
+	require_once ( ABSPATH . 'wp-admin/includes/plugin.php' );
+}
+define( 'HTC_VERSION', get_plugin_data( __FILE__ )['Version'] );
+
+
 require 'vendor/autoload.php';
 require 'metabox-fields.php';
-require 'shortcode.php';
+require 'class-ht-configurator.php';
 
-/**
- * Init plugin updater.
- *
- * @return void
- */
+
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
-
 $cpfeUpdateChecker = PucFactory::buildUpdateChecker(
 	'https://github.com/webdevs-pro/ht-configurator',
 	__FILE__,
