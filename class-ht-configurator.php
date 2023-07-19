@@ -122,7 +122,7 @@ class HT_Configurator {
 			// BATH HB
 			[
 				'image_id' => 27,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['hb'],
 					'external_color' => ['th'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -130,7 +130,7 @@ class HT_Configurator {
 			],
 			[
 				'image_id' => 36,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['hb'],
 					'external_color' => ['gr'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -138,7 +138,7 @@ class HT_Configurator {
 			],
 			[
 				'image_id' => 35,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['hb'],
 					'external_color' => ['br'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -147,7 +147,7 @@ class HT_Configurator {
 			// BATH CR
 			[
 				'image_id' => 31,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['cr'],
 					'external_color' => ['th'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -155,7 +155,7 @@ class HT_Configurator {
 			],
 			[
 				'image_id' => 29,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['cr'],
 					'external_color' => ['br'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -163,7 +163,7 @@ class HT_Configurator {
 			],
 			[
 				'image_id' => 30,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['cr'],
 					'external_color' => ['gr'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -172,7 +172,7 @@ class HT_Configurator {
 			// BATH GR
 			[
 				'image_id' => 34,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['gr'],
 					'external_color' => ['th'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -180,7 +180,7 @@ class HT_Configurator {
 			],
 			[
 				'image_id' => 32,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['gr'],
 					'external_color' => ['br'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -188,7 +188,7 @@ class HT_Configurator {
 			],
 			[
 				'image_id' => 33,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['gr'],
 					'external_color' => ['gr'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -197,7 +197,7 @@ class HT_Configurator {
 			// WEIS GR
 			[
 				'image_id' => 42,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['ws'],
 					'external_color' => ['th'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -205,7 +205,7 @@ class HT_Configurator {
 			],
 			[
 				'image_id' => 40,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['ws'],
 					'external_color' => ['br'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -213,7 +213,7 @@ class HT_Configurator {
 			],
 			[
 				'image_id' => 41,
-				'conditios' => [
+				'conditions' => [
 					'bath_color' => ['ws'],
 					'external_color' => ['gr'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
@@ -230,7 +230,25 @@ class HT_Configurator {
 
 
 
+	function get_matching_variation_image_id( $variations, $default_options ) {
+		foreach ( $variations as $variation ) {
+			$conditions = $variation['conditions'];
+			$matched = true;
 
+			foreach ( $conditions as $option => $values ) {
+				if ( ! in_array( $default_options[$option], $values ) ) {
+					$matched = false;
+					break;
+				}
+			}
+
+			if ( $matched ) {
+				return $variation['image_id'];
+			}
+		}
+
+		return null; // Return null if no match found
+	}
 
 
 
@@ -251,8 +269,17 @@ class HT_Configurator {
 			$options = $this->get_options();
 
 			// get default image
-			
+			$default_options = array();
+			foreach ( $options as $option_key => $option_data ) {
+				$default_options[$option_key] = $option_data['default'];
+			}
 
+
+			$default_image_id = $this->get_matching_variation_image_id( $this->get_variations(), $default_options );
+			if ( $default_image_id ) {
+				$default_image_src = wp_get_attachment_image_src( $default_image_id, 'large' );
+				$default_image_url = $default_image_src[0] ?? '';
+			}
 
 
 
@@ -268,7 +295,7 @@ class HT_Configurator {
 			
 				echo '<div class="dtc-image-column">';	
 					echo '<div class="dtc-image-wrapper">';	
-						echo '<img class="dtc-image" src="' . $initial_image_src[0] . '"/>';
+						echo '<img class="dtc-image" src="' . $default_image_url . '"/>';
 					echo '</div>';
 				echo '</div>';
 
@@ -276,19 +303,19 @@ class HT_Configurator {
 					echo '<div class="dtc-options-wrapper">';
 
 						echo '<form autocomplete="off">';
-							foreach ( $options as $options_group_name => $options_group_settings ) {
+							foreach ( $options as $options_group_name => $options_group_data ) {
 								echo '<fieldset>';
-									echo '<legend>' . $options_group_settings['label'] . '</legend>';
-									foreach ( $options_group_settings['options'] as $option_name => $option_settings ) {
+									echo '<legend>' . $options_group_data['label'] . '</legend>';
+									foreach ( $options_group_data['options'] as $option_name => $option_data ) {
 										echo '<label>';
 											echo sprintf(
 												'<input type="%s" name="%s" value="%s" %s>',
-												$options_group_settings['type'],
+												$options_group_data['type'],
 												$options_group_name,
 												$option_name,
-												checked( $options_group_settings['default'] ?? '', $option_name, false )
+												checked( $options_group_data['default'] ?? '', $option_name, false )
 											);
-											echo '<span>' . $option_settings['label'] . '</span>';
+											echo '<span>' . $option_data['label'] . '</span>';
 										echo '</label>';
 									}
 								echo '</fieldset>';
