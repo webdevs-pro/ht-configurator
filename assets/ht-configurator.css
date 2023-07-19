@@ -1,0 +1,69 @@
+
+.dtc-wrapper {
+	display: grid;
+	grid-template-columns: auto 400px;
+	grid-template-rows: 100vh;
+}
+body.admin-bar .dtc-wrapper {
+	grid-template-rows: calc( 100vh - 32px );
+}
+.dtc-wrapper pre {
+	font-size: 10px;
+}
+
+.dtc-image-column {
+	position: relative;
+	overflow: hidden;
+}
+
+.dtc-options-column {
+	background-color: #f9f9f9;
+	position: relative;
+}
+
+.dtc-image-wrapper {
+	display: flex;
+	padding: 10vh;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.dtc-image-wrapper img {
+	object-fit: contain;
+	object-position: center;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.dtc-options-wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+}
+
+
+
+
+
+
+.dtc-options-wrapper fieldset {
+	border: none;
+}
+
+.dtc-options-wrapper legend {
+	font-weight: bold;
+}
+
+.dtc-options-wrapper label {
+	display: block;
+	width: 100%;
+	margin: 8px 0;
+	cursor: pointer;
+}
+.dtc-options-wrapper label span {
+	margin-left: 4px;
+}
