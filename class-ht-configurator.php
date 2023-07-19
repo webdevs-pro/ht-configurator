@@ -16,6 +16,15 @@ class HT_Configurator {
 		wp_enqueue_style( 'ht-configurator-style', plugin_dir_url( __FILE__ ) . 'assets/ht-configurator.css', array(), HTC_VERSION );
 	}
 
+
+
+
+
+
+
+
+
+
 	private function get_options() {
 		$options = array(
 			'bath_color' => [
@@ -96,6 +105,140 @@ class HT_Configurator {
 		return $options;
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+	private function get_variations() {
+		$variations = array(
+			// BATH HB
+			[
+				'image_id' => 27,
+				'conditios' => [
+					'bath_color' => ['hb'],
+					'external_color' => ['th'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 36,
+				'conditios' => [
+					'bath_color' => ['hb'],
+					'external_color' => ['gr'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 35,
+				'conditios' => [
+					'bath_color' => ['hb'],
+					'external_color' => ['br'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			// BATH CR
+			[
+				'image_id' => 31,
+				'conditios' => [
+					'bath_color' => ['cr'],
+					'external_color' => ['th'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 29,
+				'conditios' => [
+					'bath_color' => ['cr'],
+					'external_color' => ['br'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 30,
+				'conditios' => [
+					'bath_color' => ['cr'],
+					'external_color' => ['gr'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			// BATH GR
+			[
+				'image_id' => 34,
+				'conditios' => [
+					'bath_color' => ['gr'],
+					'external_color' => ['th'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 32,
+				'conditios' => [
+					'bath_color' => ['gr'],
+					'external_color' => ['br'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 33,
+				'conditios' => [
+					'bath_color' => ['gr'],
+					'external_color' => ['gr'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			// WEIS GR
+			[
+				'image_id' => 42,
+				'conditios' => [
+					'bath_color' => ['ws'],
+					'external_color' => ['th'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 40,
+				'conditios' => [
+					'bath_color' => ['ws'],
+					'external_color' => ['br'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 41,
+				'conditios' => [
+					'bath_color' => ['ws'],
+					'external_color' => ['gr'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+		);
+
+		return $variations;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public function hot_tube_configurator_shortcode() {
 		ob_start();
 
@@ -106,7 +249,17 @@ class HT_Configurator {
 
 			// $options = get_post_meta( $post_id, 'options_group', true );
 			$options = $this->get_options();
-			$variation_images = get_post_meta( $post_id, 'variation', true );
+
+			// get default image
+			
+
+
+
+
+
+
+
+			// $variation_images = get_post_meta( $post_id, 'variation', true );
 			$initial_image_id = get_post_meta( $post_id, 'initial_image', true );
 			$initial_image_src = wp_get_attachment_image_src( $initial_image_id, 'large' );
 
@@ -141,8 +294,6 @@ class HT_Configurator {
 								echo '</fieldset>';
 							}
 						echo '</form>';
-
-						// echo '<pre>variation_images ' . print_r($variation_images, true) . '</pre><br>';
 
 					echo '</div>';
 				echo '</div>';
