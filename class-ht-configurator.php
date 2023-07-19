@@ -5,14 +5,33 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 class HT_Configurator {
-
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
 		add_shortcode( 'ht-configurator', array( $this, 'hot_tube_configurator_shortcode' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'wp_ajax_htc_form_change',  array( $this, 'ajax_htc_form_change' ) );
+      add_action( 'wp_ajax_nopriv_htc_form_change',  array( $this, 'ajax_htc_form_change' ) );
 	}
 
+
+
+
+
+
+
+
+
+	/**
+	 * Enqueue assets.
+	 */
 	public function enqueue_assets() {
 		wp_enqueue_script( 'ht-configurator-script', plugin_dir_url( __FILE__ ) . 'assets/ht-configurator.js', array( 'jquery' ), HTC_VERSION, true );
+		wp_localize_script( 'ht-configurator-script', 'ht_configurator', array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+		) );
+
 		wp_enqueue_style( 'ht-configurator-style', plugin_dir_url( __FILE__ ) . 'assets/ht-configurator.css', array(), HTC_VERSION );
 	}
 
@@ -24,7 +43,11 @@ class HT_Configurator {
 
 
 
-
+	/**
+	 * Get options.
+	 *
+	 * @return array Options data.
+	 */
 	private function get_options() {
 		$options = array(
 			'bath_color' => [
@@ -113,10 +136,11 @@ class HT_Configurator {
 
 
 
-
-
-
-
+	/**
+	 * Get variations.
+	 *
+	 * @return array Variations data.
+	 */
 	private function get_variations() {
 		$variations = array(
 			// BATH HB
@@ -230,7 +254,17 @@ class HT_Configurator {
 
 
 
-	function get_matching_variation_image_id( $variations, $default_options ) {
+
+
+	/**
+	 * Get matching variation image ID.
+	 *
+	 * @param array $variations       Variations data.
+	 * @param array $default_options  Default options.
+	 *
+	 * @return int|null Matching image ID or null if no match found.
+	 */
+	private function get_matching_variation_image_id( $variations, $default_options ) {
 		foreach ( $variations as $variation ) {
 			$conditions = $variation['conditions'];
 			$matched = true;
@@ -257,6 +291,81 @@ class HT_Configurator {
 
 
 
+
+	/**
+	 * Get default image URL.
+	 *
+	 * @param array $options Options data.
+	 *
+	 * @return string Default image URL.
+	 */
+	private function get_default_image_url( $options ) {
+		$default_options = array();
+		foreach ( $options as $option_key => $option_data ) {
+			$default_options[$option_key] = $option_data['default'];
+		}
+
+		error_log( "default_options\n" . print_r( $default_options, true ) . "\n" );
+
+
+
+		$default_image_id = $this->get_matching_variation_image_id( $this->get_variations(), $default_options );
+		$default_image_url = '';
+		if ( $default_image_id ) {
+			$default_image_src = wp_get_attachment_image_src( $default_image_id, 'large' );
+			$default_image_url = $default_image_src[0] ?? '';
+		}
+
+		return $default_image_url;
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 * Get default image URL.
+	 *
+	 * @param array $options Options data.
+	 *
+	 * @return string Default image URL.
+	 */
+	private function get_matching_image_url( $options, $variation = [] ) {
+		if ( ! $variation ) {
+			$variation = array();
+			foreach ( $options as $option_key => $option_data ) {
+				$variation[$option_key] = $option_data['default'];
+			}
+		}
+
+
+		$default_image_id = $this->get_matching_variation_image_id( $this->get_variations(), $variation );
+		$default_image_url = '';
+		if ( $default_image_id ) {
+			$default_image_src = wp_get_attachment_image_src( $default_image_id, 'large' );
+			$default_image_url = $default_image_src[0] ?? '';
+		}
+
+		return $default_image_url;
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 * Shortcode callback for hot tube configurator.
+	 *
+	 * @return string Configurator HTML.
+	 */
 	public function hot_tube_configurator_shortcode() {
 		ob_start();
 
@@ -267,28 +376,7 @@ class HT_Configurator {
 
 			// $options = get_post_meta( $post_id, 'options_group', true );
 			$options = $this->get_options();
-
-			// get default image
-			$default_options = array();
-			foreach ( $options as $option_key => $option_data ) {
-				$default_options[$option_key] = $option_data['default'];
-			}
-
-
-			$default_image_id = $this->get_matching_variation_image_id( $this->get_variations(), $default_options );
-			if ( $default_image_id ) {
-				$default_image_src = wp_get_attachment_image_src( $default_image_id, 'large' );
-				$default_image_url = $default_image_src[0] ?? '';
-			}
-
-
-
-
-
-
-			// $variation_images = get_post_meta( $post_id, 'variation', true );
-			$initial_image_id = get_post_meta( $post_id, 'initial_image', true );
-			$initial_image_src = wp_get_attachment_image_src( $initial_image_id, 'large' );
+			$default_image_url = $this->get_default_image_url( $options );
 
 
 			echo '<div class="dtc-wrapper">';
@@ -302,7 +390,7 @@ class HT_Configurator {
 				echo '<div class="dtc-options-column">';
 					echo '<div class="dtc-options-wrapper">';
 
-						echo '<form autocomplete="off">';
+						echo '<form class="ht-configurator" autocomplete="off">';
 							foreach ( $options as $options_group_name => $options_group_data ) {
 								echo '<fieldset>';
 									echo '<legend>' . $options_group_data['label'] . '</legend>';
@@ -327,6 +415,30 @@ class HT_Configurator {
 			echo '</div>';
 
 		return ob_get_clean();
+	}
+
+
+
+
+
+
+
+
+	public function ajax_htc_form_change() {
+		error_log( "_POST\n" . print_r( $_POST, true ) . "\n" );
+
+		$form_fields = $_POST['form_fields'] ?? [];
+
+
+		$image_url = $this->get_matching_image_url( $this->get_options(), $form_fields );
+
+		error_log( "image_url\n" . print_r( $image_url, true ) . "\n" );
+
+		wp_send_json_success(
+			array(
+				'image_url' => $image_url,
+			)
+		);
 	}
 }
 
