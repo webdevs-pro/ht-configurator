@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
             form_fields[item.name] = [];
          }
 
-         form_fields[item.name] = item.value;
+         form_fields[item.name].push(item.value);
       });
 
       form.addClass('htc-loading');
