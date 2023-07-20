@@ -23,6 +23,7 @@ define( 'HTC_VERSION', get_plugin_data( __FILE__ )['Version'] );
 
 require 'vendor/autoload.php';
 require 'metabox-fields.php';
+require 'class-options-page.php';
 require 'class-ht-configurator.php';
 
 
