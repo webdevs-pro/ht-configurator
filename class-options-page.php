@@ -15,17 +15,35 @@ class HT_Options {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ));
 	}
 
+
+
+
+
+
+
+
+
 	public function create_options_page() {
+		// Main menu page
 		add_menu_page(
-			'Configurator Options',
-			'Configurator Options',
+			'Configurator',
+			'Configurator',
 			'manage_options',
-			'ht_options',
+			'ht_configurator',
 			array( $this, 'options_page_content' ),
 			'',
 			4
 		);
+
 	}
+
+
+
+
+
+
+
+
 
 	public function options_page_content() {
 		?>
@@ -54,7 +72,8 @@ class HT_Options {
 							matchBrackets: true,
 							lint: true,
 							styleActiveLine: true,
-							theme: '3024-night'
+							// theme: '3024-night'
+							theme: 'monokai'
 						}
 					);
 					var editor = wp.codeEditor.initialize($('#json-textarea'), editorSettings);
@@ -76,6 +95,50 @@ class HT_Options {
 		<?php
 	}
 
+
+
+
+
+
+
+
+
+	public function options_subpage_content() {
+		// Display the content for the Options submenu page
+		?>
+		<div class="wrap">
+			<h1>Options</h1>
+			<p>This is the Options subpage. Here, you could display a form for configuring options, for example.</p>
+		</div>
+		<?php
+	}
+
+
+
+
+
+
+
+
+
+	public function variations_subpage_content() {
+		// Display the content for the Variations submenu page
+		?>
+		<div class="wrap">
+			<h1>Variations</h1>
+			<p>This is the Variations subpage. Here, you could display a form for configuring variations, for example.</p>
+		</div>
+		<?php
+	}
+
+
+
+
+
+
+
+
+
 	public function setup_sections_and_fields() {
 		register_setting( 'ht_options_group', self::OPTION_NAME, array( $this, 'sanitize_input' ) );
 
@@ -95,31 +158,65 @@ class HT_Options {
 		);
 	}
 
+
+
+
+
+
+
+
+
 	public function section_callback( $arguments ) {
 		echo 'You can edit your JSON string in the text area below:';
 	}
+
+
+
+
+
+
+
+
 
 	public function field_callback( $arguments ) {
 		$option = get_option( self::OPTION_NAME );
 		echo '<textarea name="' . esc_attr( self::OPTION_NAME ) . '" id="json-textarea" cols="100" rows="10">' . esc_textarea( $option ) . '</textarea>';
 	}
 
+
+
+
+
+
+
+
+
 	public function sanitize_input( $input ) {
 		// TODO: Add sanitization, validation, and escaping here
 		return $input;
 	}
 
+
+
+
+
+
+
+
+
 	public function enqueue_admin_scripts( $hook ) {
-		if ( 'toplevel_page_ht_options' !== $hook ) {
+		if ( 'toplevel_page_ht_configurator' !== $hook ) {
 			return;
 		}
+
 		$cm_settings['codeEditor'] = wp_enqueue_code_editor( array( 'type' => 'application/json' ) );
 		wp_localize_script( 'jquery', 'cm_settings', $cm_settings );
 
 		wp_enqueue_script( 'wp-theme-plugin-editor' );
 		wp_enqueue_style( 'wp-codemirror' );
 
-		wp_enqueue_style( 'codemirror-theme-3024-night', plugin_dir_url( __FILE__ ) . 'assets/3024-night.css' );
+		// wp_enqueue_style( 'codemirror-theme-3024-night', plugin_dir_url( __FILE__ ) . 'assets/3024-night.css' );
+		wp_enqueue_style( 'codemirror-theme-3024-night', plugin_dir_url( __FILE__ ) . 'assets/monokai.css' );
 	}
 }
 
