@@ -94,10 +94,10 @@ class HT_Configurator {
 						'label' => 'Braun WPC',
 						'amount' => 0,
 					],
-					'fh' => [
-						'label' => 'Fichtenholz (dunkel)',
-						'amount' => 0,
-					],
+					// 'fh' => [
+					// 	'label' => 'Fichtenholz (dunkel)',
+					// 	'amount' => 0,
+					// ],
 				],
 			],
 			'oven_type' => [
@@ -164,6 +164,31 @@ class HT_Configurator {
 				'image_id' => 35,
 				'conditions' => [
 					'bath_color' => ['hb'],
+					'external_color' => ['br'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			// BATH OB
+			[
+				'image_id' => 39,
+				'conditions' => [
+					'bath_color' => ['ob'],
+					'external_color' => ['th'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 38,
+				'conditions' => [
+					'bath_color' => ['ob'],
+					'external_color' => ['gr'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 37,
+				'conditions' => [
+					'bath_color' => ['ob'],
 					'external_color' => ['br'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
 				]
