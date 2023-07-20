@@ -220,6 +220,20 @@ class HT_Metabox {
 			'tab'            => 'variations',
 			'fields'         => [
 				[
+					'type' => 'heading',
+					'name' => 'Default variation',
+				],
+				'default_variant' => [
+					'name'          => '',
+					'id'            => 'default_variation',
+					'type'          => 'group',
+					'fields'        => [],
+				],
+				[
+					'type' => 'heading',
+					'name' => 'Variations',
+				],
+				'variants' => [
 					'name'          => '',
 					'id'            => 'variation',
 					'type'          => 'group',
@@ -255,7 +269,13 @@ class HT_Metabox {
 
 		$options = get_option( 'htc-options' )['options_group'] ?? [];
 		foreach ( $options as $options_group ) {
-			$meta_boxes['htc_variations']['fields'][0]['fields'][] = array(
+			$meta_boxes['htc_variations']['fields']['default_variant']['fields'][] = array(
+				'name' => $options_group['label'],
+				'id' => $options_group['id'],
+				'type' => 'checkbox_list',
+				'options' => array_column( $options_group['options'], 'label', 'id' ),
+			);
+			$meta_boxes['htc_variations']['fields']['variants']['fields'][] = array(
 				'name' => $options_group['label'],
 				'id' => $options_group['id'],
 				'type' => 'checkbox_list',

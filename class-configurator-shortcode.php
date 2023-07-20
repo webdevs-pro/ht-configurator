@@ -440,7 +440,10 @@ class HT_Configurator {
 			}
 
 			// $options = get_post_meta( $post_id, 'options_group', true );
-			$options = $this->get_options();
+			// $options = $this->get_options();
+			$options = get_option( 'htc-options' )['options_group'] ?? [];
+			$default_variant = get_option( 'htc-variations' )['default_variation'] ?? [];
+			
 			$default_image_url = $this->get_default_image_url( $options );
 
 
