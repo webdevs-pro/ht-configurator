@@ -56,16 +56,16 @@ class HT_Metabox {
 
 	public function register_settings_pages( $settings_pages ) {
 		$settings_pages[] = [
-			'menu_title' => 'Options config',
+			'menu_title' => 'Options',
 			'id'         => 'htc-options',
 			'position'   => 0,
 			'parent'     => 'ht_configurator',
 			'columns'    => 1,
 			'icon_url'   => 'dashicons-admin-generic',
 			'tabs'       => [
-            'options'  => 'Options',
-            'backup' => 'Backup',
-        ],
+				'options'  => 'Options',
+				'backup' => 'Backup',
+			],
 		];
 		$settings_pages[] = [
 			'menu_title' => 'Variations',
@@ -74,6 +74,10 @@ class HT_Metabox {
 			'parent'     => 'ht_configurator',
 			'columns'    => 1,
 			'icon_url'   => 'dashicons-admin-generic',
+			'tabs'       => [
+				'variations'  => 'Variations',
+				'backup' => 'Backup',
+			],
 		];
 
 		return $settings_pages;
@@ -99,7 +103,7 @@ class HT_Metabox {
 			'tab'            => 'options',
 			'fields'     => [
 				[
-					'name'          => 'Options Group',
+					'name'          => '',
 					'id'            => 'options_group',
 					'type'          => 'group',
 					'collapsible'   => true,
@@ -209,18 +213,19 @@ class HT_Metabox {
 
 
 	public function add_variations_meta_boxes( $meta_boxes ) {
-		$meta_boxes[] = [
+		$meta_boxes['htc_variations'] = [
 			'title'          => 'HT Variant Image Configurator',
 			'id'             => 'htc-variations',
 			'settings_pages' => ['htc-variations'],
+			'tab'            => 'variations',
 			'fields'         => [
 				[
-					'name'          => 'Group',
+					'name'          => '',
 					'id'            => 'variation',
 					'type'          => 'group',
 					'collapsible'   => true,
 					'default_state' => 'collapsed',
-					'group_title'   => '{internal_color} - {external_color} | {variation_internal_description}',
+					'group_title'   => '{variation_internal_description}',
 					'clone'         => true,
 					'sort_clone'    => true,
 					'add_button'    => 'Add variation',
@@ -242,86 +247,31 @@ class HT_Metabox {
 							'step' => 0.01,
 							'size' => 8,
 						],
-						[
-							'type' => 'heading',
-							'name' => 'Grundausstattung',
-						],
-						[
-							'name'        => 'Wannen Farbe',
-							'id'          => 'internal_color',
-							'type'        => 'select',
-							'options'     => [
-								1      => 'Himmel Blau (Standard)',
-								2      => 'Ozeanblau',
-								3      => 'Creme',
-								4      => 'Grau',
-								'Weis' => 'Weis',
-							],
-							'placeholder' => 'Select inner color',
-						],
-						[
-							'name'        => 'Außenfarben',
-							'id'          => 'external_color',
-							'type'        => 'select',
-							'options'     => [
-								1 => 'Grau WPC',
-								2 => 'Braun WPC',
-								3 => 'Thermo Holz (Hell)',
-								4 => 'Fichtenholz (dunkel)',
-							],
-							'placeholder' => 'Select external color',
-						],
-						[
-							'name'    => 'Ofen Art',
-							'id'      => 'ofen_art',
-							'type'    => 'checkbox_list',
-							'options' => [
-								1 => 'Ohne Ofen (Nur Tub)',
-								2 => 'Externer Ofen Model: AISI430 mit Schornsteinsystem',
-								3 => 'Externer Ofen Model: AISI304 mit Schornsteinsystem',
-								4 => 'Externer Ofen Model: AISI316 mit Schornsteinsystem Geeignet für Chemikalien (chlor)',
-							],
-						],
-						[
-							'name'        => 'Deckel',
-							'id'          => 'deckel',
-							'type'        => 'select',
-							'options'     => [
-								1 => 'Ohne Tub Deckel',
-								2 => 'Kunstoff Deckel Durchsichtig',
-								3 => 'Thermo leder Deckel',
-							],
-							'placeholder' => 'Select cover color',
-						],
-						[
-							'name'        => 'Treppen Art',
-							'id'          => 'treppen_art',
-							'type'        => 'select',
-							'options'     => [
-								1 => 'Ohne Treppe',
-								2 => 'Offene 2 Stufige Treppe',
-								3 => 'Geschlossene 2 Stufige Truppe',
-							],
-							'placeholder' => 'Select stairs color',
-						],
-						[
-							'type' => 'heading',
-							'name' => 'Ausstattungsvarianten',
-						],
-						[
-							'name'        => 'LED IM TUB',
-							'id'          => 'led_im_tub',
-							'type'        => 'select',
-							'options'     => [
-								1 => 'Ohne LED´s',
-								2 => '1 LED 65mm Unterwasserlampe',
-								3 => '2 LED 65mm Unterwasserlampe',
-								4 => '3 LED 65mm Unterwasserlampe',
-								5 => '4. LED 65mm Unterwasserlampe',
-							],
-							'placeholder' => 'Select LED type',
-						],
 					],
+				],
+			],
+		];
+
+		$options = get_option( 'htc-options' )['options_group'] ?? [];
+		foreach ( $options as $options_group ) {
+			$meta_boxes['htc_variations']['fields'][0]['fields'][] = array(
+				'name' => $options_group['label'],
+				'id' => $options_group['id'],
+				'type' => 'checkbox_list',
+				'options' => array_column( $options_group['options'], 'label', 'id' ),
+			);
+		}
+
+
+		$meta_boxes[] = [
+			'title'      => 'Backup & restore options',
+			'id'         => 'htc-variations-backup',
+			'settings_pages' => ['htc-variations'],
+			'tab'            => 'backup',
+			'fields'     => [
+				[
+					'name' => 'Backup & restore options',
+					'type' => 'backup',
 				],
 			],
 		];
