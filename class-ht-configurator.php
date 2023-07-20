@@ -94,10 +94,10 @@ class HT_Configurator {
 						'label' => 'Braun WPC',
 						'amount' => 0,
 					],
-					// 'fh' => [
-					// 	'label' => 'Fichtenholz (dunkel)',
-					// 	'amount' => 0,
-					// ],
+					'fh' => [
+						'label' => 'Fichtenholz (dunkel)',
+						'amount' => 0,
+					],
 				],
 			],
 			'oven_type' => [
@@ -168,6 +168,14 @@ class HT_Configurator {
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
 				]
 			],
+			[
+				'image_id' => 65,
+				'conditions' => [
+					'bath_color' => ['hb'],
+					'external_color' => ['fh'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
 			// BATH OB
 			[
 				'image_id' => 39,
@@ -190,6 +198,14 @@ class HT_Configurator {
 				'conditions' => [
 					'bath_color' => ['ob'],
 					'external_color' => ['br'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 66,
+				'conditions' => [
+					'bath_color' => ['ob'],
+					'external_color' => ['fh'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
 				]
 			],
@@ -218,6 +234,14 @@ class HT_Configurator {
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
 				]
 			],
+			[
+				'image_id' => 63,
+				'conditions' => [
+					'bath_color' => ['cr'],
+					'external_color' => ['fh'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
 			// BATH GR
 			[
 				'image_id' => 34,
@@ -243,6 +267,14 @@ class HT_Configurator {
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
 				]
 			],
+			[
+				'image_id' => 64,
+				'conditions' => [
+					'bath_color' => ['gr'],
+					'external_color' => ['fh'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
 			// WEIS GR
 			[
 				'image_id' => 42,
@@ -265,6 +297,14 @@ class HT_Configurator {
 				'conditions' => [
 					'bath_color' => ['ws'],
 					'external_color' => ['gr'],
+					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
+				]
+			],
+			[
+				'image_id' => 62,
+				'conditions' => [
+					'bath_color' => ['ws'],
+					'external_color' => ['fh'],
 					'oven_type' => ['e430s', 'e304s', 'e316sgc'],
 				]
 			],
