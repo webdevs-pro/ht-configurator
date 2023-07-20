@@ -241,11 +241,12 @@ class HT_Metabox {
 							'type' => 'single_image',
 						],
 						[
-							'name' => 'Variation amount',
-							'id'   => 'variation_amount',
+							'name' => 'Variation price',
+							'id'   => 'variation_price',
 							'type' => 'number',
 							'step' => 0.01,
 							'size' => 8,
+							'desc' => 'This will override all other options'
 						],
 					],
 				],
