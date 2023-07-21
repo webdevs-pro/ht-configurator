@@ -63,8 +63,8 @@ class HT_Metabox {
 			'columns'    => 1,
 			'icon_url'   => 'dashicons-admin-generic',
 			'tabs'       => [
-				'options'  => 'Options',
-				'backup' => 'Backup',
+				'options' => 'Options',
+				'backup'  => 'Backup',
 			],
 		];
 		$settings_pages[] = [
@@ -75,8 +75,8 @@ class HT_Metabox {
 			'columns'    => 1,
 			'icon_url'   => 'dashicons-admin-generic',
 			'tabs'       => [
-				'variations'  => 'Variations',
-				'backup' => 'Backup',
+				'variations' => 'Variations',
+				'backup'     => 'Backup',
 			],
 		];
 
@@ -97,11 +97,11 @@ class HT_Metabox {
 
 	public function add_options_meta_boxes( $meta_boxes ) {
 		$meta_boxes[] = [
-			'title'      => 'Options',
-			'id'         => 'htc-options',
+			'title'  => 'Options',
+			'id'     => 'htc-options',
 			'settings_pages' => ['htc-options'],
 			'tab'            => 'options',
-			'fields'     => [
+			'fields' => [
 				[
 					'name'          => '',
 					'id'            => 'options_group',
@@ -123,11 +123,11 @@ class HT_Metabox {
 							'type' => 'text',
 						],
 						[
-							'name' => 'Type',
-							'id'   => 'type',
-							'type' => 'select',
+							'name'    => 'Type',
+							'id'      => 'type',
+							'type'    => 'select',
 							'options' => [
-								'radio' => 'Radio button (single option)',
+								'radio'    => 'Radio button (single option)',
 								'checkbox' => 'Checkbox (multiple options)',
 							]
 						],
@@ -147,7 +147,7 @@ class HT_Metabox {
 							'type'          => 'group',
 							'collapsible'   => true,
 							'default_state' => 'collapsed',
-							'group_title'   => '{label}',
+							'group_title'   => '{label} | {option_price}',
 							'clone'         => true,
 							'sort_clone'    => true,
 							'add_button'    => 'Add option',
@@ -173,10 +173,9 @@ class HT_Metabox {
 									],
 								],
 								[
-									'name' => 'Amount to add',
-									'id'   => 'amount',
+									'name' => 'Option price',
+									'id'   => 'option_price',
 									'type' => 'number',
-									'desc' => 'Amount to be added to the current price',
 									'step' => 0.01,
 								],
 							],
@@ -187,11 +186,11 @@ class HT_Metabox {
 		];
 
 		$meta_boxes[] = [
-			'title'      => 'Backup & restore options',
-			'id'         => 'htc-options-backup',
+			'title'          => 'Backup & restore options',
+			'id'             => 'htc-options-backup',
 			'settings_pages' => ['htc-options'],
 			'tab'            => 'backup',
-			'fields'     => [
+			'fields'         => [
 				[
 					'name' => 'Backup & restore options',
 					'type' => 'backup',
@@ -224,10 +223,10 @@ class HT_Metabox {
 					'name' => 'Default variation',
 				],
 				'default_variant' => [
-					'name'          => '',
-					'id'            => 'default_variation',
-					'type'          => 'group',
-					'fields'        => [],
+					'name'         => '',
+					'id'           => 'default_variation',
+					'type'         => 'group',
+					'fields'       => [],
 				],
 				[
 					'type' => 'heading',
@@ -270,26 +269,26 @@ class HT_Metabox {
 		$options = get_option( 'htc-options' )['options_group'] ?? [];
 		foreach ( $options as $options_group ) {
 			$meta_boxes['htc_variations']['fields']['default_variant']['fields'][] = array(
-				'name' => $options_group['label'],
-				'id' => $options_group['id'],
-				'type' => 'checkbox_list',
+				'name'    => $options_group['label'],
+				'id'      => $options_group['id'],
+				'type'    => 'checkbox_list',
 				'options' => array_column( $options_group['options'], 'label', 'id' ),
 			);
 			$meta_boxes['htc_variations']['fields']['variants']['fields'][] = array(
-				'name' => $options_group['label'],
-				'id' => $options_group['id'],
-				'type' => 'checkbox_list',
+				'name'    => $options_group['label'],
+				'id'      => $options_group['id'],
+				'type'    => 'checkbox_list',
 				'options' => array_column( $options_group['options'], 'label', 'id' ),
 			);
 		}
 
 
 		$meta_boxes[] = [
-			'title'      => 'Backup & restore options',
-			'id'         => 'htc-variations-backup',
+			'title'          => 'Backup & restore options',
+			'id'             => 'htc-variations-backup',
 			'settings_pages' => ['htc-variations'],
 			'tab'            => 'backup',
-			'fields'     => [
+			'fields'         => [
 				[
 					'name' => 'Backup & restore options',
 					'type' => 'backup',

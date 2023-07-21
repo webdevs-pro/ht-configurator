@@ -21,10 +21,10 @@ class HT_Configurator {
 
 
 
-
-
 	/**
 	 * Enqueue assets.
+	 *
+	 * Enqueues the required scripts and styles for the configurator.
 	 */
 	public function enqueue_assets() {
 		wp_enqueue_script( 'ht-configurator-script', plugin_dir_url( __FILE__ ) . 'assets/ht-configurator.js', array( 'jquery' ), HTC_VERSION, true );
@@ -41,16 +41,10 @@ class HT_Configurator {
 
 
 
-
-
-
-
-
-
 	/**
-	 * Get default image URL.
+	 * Get default image URL by image ID.
 	 *
-	 * @param array $options Options data.
+	 * @param int $image_id The image ID.
 	 *
 	 * @return string Default image URL.
 	 */
@@ -71,10 +65,14 @@ class HT_Configurator {
 
 
 
-
-
-
-
+	/**
+	 * Get the image ID that matches the selected variation.
+	 *
+	 * @param array $selected_variation The selected variation data.
+	 * @param array $variations         Array of available variations.
+	 *
+	 * @return int|false The image ID or false if no match is found.
+	 */
 	public function get_matching_variation_image_id( $selected_variation, $variations ) {
 		foreach ( $variations as $variation_index => $variation ) {
 			$selected_variation_keys = array_keys( $selected_variation );
@@ -86,7 +84,7 @@ class HT_Configurator {
 				$match = $this->compare_variation_values( $selected_variation, $variation );
 
 				if ( $match ) {
-					return $variations[$variation_index]['variation_image'];
+					return $variations[ $variation_index ]['variation_image'];
 				}
 			} else {
 				continue;
@@ -100,13 +98,20 @@ class HT_Configurator {
 
 
 
-
+	/**
+	 * Compare variation values to check if they match the selected variation.
+	 *
+	 * @param array $selected_variation The selected variation data.
+	 * @param array $variation          The variation data to compare against.
+	 *
+	 * @return bool True if the variations match, false otherwise.
+	 */
 	private function compare_variation_values( $selected_variation, $variation ) {
 		$matched_values = 0;
 
 		foreach ( $selected_variation as $key => $values ) {
 			foreach ( $values as $value ) {
-				if ( in_array( $value, $variation[$key] ) ) {
+				if ( in_array( $value, $variation[ $key ] ) ) {
 					$matched_values++;
 					break;
 				}
@@ -126,10 +131,8 @@ class HT_Configurator {
 
 
 
-
-
 	/**
-	 * Shortcode callback for hot tube configurator.
+	 * Shortcode callback for the hot tube configurator.
 	 *
 	 * @return string Configurator HTML.
 	 */
@@ -167,7 +170,7 @@ class HT_Configurator {
 												$options_group['type'],
 												$options_group['id'],
 												$option['id'],
-												checked( $default_variation[$options_group['id']][0], $option['id'], false )
+												checked( $default_variation[ $options_group['id'] ][0], $option['id'], false )
 											);
 											echo '<span>' . $option['label'] . '</span>';
 										echo '</label>';
@@ -189,7 +192,11 @@ class HT_Configurator {
 
 
 
-
+	/**
+	 * AJAX callback for form change.
+	 *
+	 * Handles the AJAX request for form changes and returns the updated image URL.
+	 */
 	public function ajax_htc_form_change() {
 		error_log( "_POST\n" . print_r( $_POST, true ) . "\n" );
 
@@ -197,8 +204,6 @@ class HT_Configurator {
 		$variations = get_option( 'htc-variations' )['variation'] ?? [];
 		$image_id = $this->get_matching_variation_image_id( $form_fields, $variations );
 		$image_url = $this->get_image_url_by_id( $image_id );
-
-		error_log( "image_url\n" . print_r( $image_url, true ) . "\n" );
 
 		wp_send_json_success(
 			array(
