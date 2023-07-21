@@ -278,8 +278,6 @@ class HT_Metabox {
 
 		$options = get_option( 'htc-options' )['options_group'] ?? [];
 
-		error_log( "options\n" . print_r( $options, true ) . "\n" );
-
 		foreach ( $options as $options_group ) {
 			$meta_boxes['htc_variations']['fields']['default_variant']['fields'][] = array(
 				'name'    => $options_group['label'],

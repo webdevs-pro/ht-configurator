@@ -142,7 +142,7 @@ class HT_Configurator {
 
 			$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
 			$default_variation = get_option( 'htc-variations' )['default_variation'] ?? [];
-			error_log( "default_variation\n" . print_r( $default_variation, true ) . "\n" );
+
 			// $variations = get_option( 'htc-variations' )['variation'] ?? [];
 			// $default_image_id = $this->get_matching_variation_image_id( $default_variation, $variations );
 			// $default_image_url = $this->get_image_url_by_id( $default_image_id );
@@ -227,6 +227,7 @@ class HT_Configurator {
 		$form_fields = $_POST['form_fields'] ?? [];
 
 		$variations = get_option( 'htc-variations' )['variation'] ?? [];
+
 		$image_id = $this->get_matching_variation_image_id( $form_fields, $variations );
 		$image_url = $this->get_image_url_by_id( $image_id );
 
@@ -243,8 +244,6 @@ class HT_Configurator {
 				}
 			}
 		}
-
-		error_log( "price\n" . print_r( $price, true ) . "\n" );
 
 		wp_send_json_success(
 			array(
