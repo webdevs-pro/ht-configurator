@@ -75,43 +75,43 @@ class HT_Configurator {
 
 
 
-/**
- * Finds the best match of a selected variation from a list of variations.
- *
- * This function compares the selected variation's properties with each of the variations 
- * in the provided list. The best match is the variation with the highest number of matching 
- * properties.
- *
- * @param array $selected   The selected variation.
- * @param array $variations The list of variations to compare with the selected variation.
- *
- * @return array|null The best match variation or null if no match is found.
- */
-private function find_best_match( $selected, $variations ) {
-	$best_match = null;
-	$best_match_count = 0;
+	/**
+	 * Finds the best match of a selected variation from a list of variations.
+	 *
+	 * This function compares the selected variation's properties with each of the variations 
+	 * in the provided list. The best match is the variation with the highest number of matching 
+	 * properties.
+	 *
+	 * @param array $selected   The selected variation.
+	 * @param array $variations The list of variations to compare with the selected variation.
+	 *
+	 * @return array|null The best match variation or null if no match is found.
+	 */
+	private function find_best_match( $selected, $variations ) {
+		$best_match = null;
+		$best_match_count = 0;
 
-	foreach ( $variations as $variation ) {
-		$match_count = 0;
+		foreach ( $variations as $variation ) {
+			$match_count = 0;
 
-		foreach ( $selected as $property => $selected_values ) {
-			if ( isset( $variation[ $property ] ) ) {
-				foreach ( $selected_values as $selected_value ) {
-					if ( in_array( $selected_value, $variation[ $property ], true ) ) {
-						$match_count++;
+			foreach ( $selected as $property => $selected_values ) {
+				if ( isset( $variation[ $property ] ) ) {
+					foreach ( $selected_values as $selected_value ) {
+						if ( in_array( $selected_value, $variation[ $property ], true ) ) {
+							$match_count++;
+						}
 					}
 				}
 			}
+
+			if ( $match_count > $best_match_count ) {
+				$best_match = $variation;
+				$best_match_count = $match_count;
+			}
 		}
 
-		if ( $match_count > $best_match_count ) {
-			$best_match = $variation;
-			$best_match_count = $match_count;
-		}
+		return $best_match;
 	}
-
-	return $best_match;
-}
 
 
 
