@@ -3,7 +3,7 @@
  * Plugin Name: Hot Tube Configurator
  * Plugin URI: https://github.com/webdevs-pro/ht-configurator
  * Description: This is a plugin to provide a Hot Tube configuration shortcode.
- * Version: 0.4.0
+ * Version: 0.4.1
  * Author: Alex Ishchenko
  * Author URI: https://website.cv.ua/
  * License: GPL2
@@ -28,6 +28,10 @@ class HT_Configurator_Plugin {
 		require 'vendor/autoload.php';
 		$this->initialize_update_checker();
 
+		if ( ! function_exists( 'get_plugin_data' ) || ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
 		// Check if the required plugins are installed and activated.
 		$required_plugins = array(
 			'meta-box/meta-box.php',
@@ -50,9 +54,6 @@ class HT_Configurator_Plugin {
 		}
 
 		// Define HTC_VERSION after confirming that the 'get_plugin_data' function is available.
-		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
 		define( 'HTC_VERSION', get_plugin_data( __FILE__ )['Version'] );
 
 		// Load required files and initialize plugin components.
