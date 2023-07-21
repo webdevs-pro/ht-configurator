@@ -3,6 +3,8 @@ jQuery(document).ready(function($) {
    var configurator = $('.dtc-wrapper');
    var form = configurator.find('form.ht-configurator');
 
+   htc_form_change();
+
    // Listen for changes in any input field within the form and trigger 'submit' event
    form.find('input, select').on('change select', function() {
       // form.trigger('submit');
@@ -20,7 +22,7 @@ jQuery(document).ready(function($) {
          form_fields[item.name].push(item.value);
       });
 
-      form.addClass('htc-loading');
+      configurator.addClass('htc-loading');
 
       var data = {
          action: 'htc_form_change', 
@@ -33,7 +35,7 @@ jQuery(document).ready(function($) {
          function () {}
       )
       .always(function () {
-         form.removeClass('htc-loading');
+         // configurator.removeClass('htc-loading');
       })
       .done(function (response) {
 
@@ -43,5 +45,9 @@ jQuery(document).ready(function($) {
 
       });
    }
+
+   $('img.dtc-image').on('load', function() {
+      configurator.removeClass('htc-loading');
+   })
 
 });

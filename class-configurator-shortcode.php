@@ -142,9 +142,9 @@ class HT_Configurator {
 
 			$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
 			$default_variation = get_option( 'htc-variations' )['default_variation'] ?? [];
-			$variations = get_option( 'htc-variations' )['variation'] ?? [];
-			$default_image_id = $this->get_matching_variation_image_id( $default_variation, $variations );
-			$default_image_url = $this->get_image_url_by_id( $default_image_id );
+			// $variations = get_option( 'htc-variations' )['variation'] ?? [];
+			// $default_image_id = $this->get_matching_variation_image_id( $default_variation, $variations );
+			// $default_image_url = $this->get_image_url_by_id( $default_image_id );
 
 
 
@@ -152,12 +152,16 @@ class HT_Configurator {
 			
 				echo '<div class="dtc-image-column">';	
 					echo '<div class="dtc-image-wrapper">';	
-						echo '<img class="dtc-image" src="' . $default_image_url . '"/>';
+						echo '<img class="dtc-image" src="/wp-admin/images/loading.gif"/>';
 					echo '</div>';
 				echo '</div>';
 
 				echo '<div class="dtc-options-column">';
 					echo '<div class="dtc-options-wrapper">';
+
+						echo '<div class="dtc-total-price">';
+
+						echo '</div>';
 
 						echo '<form class="ht-configurator" autocomplete="off">';
 							foreach ( $option_groups as $options_group ) {

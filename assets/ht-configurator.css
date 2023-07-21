@@ -4,11 +4,22 @@
 	grid-template-columns: auto 400px;
 	grid-template-rows: 100vh;
 }
+
+
 body.admin-bar .dtc-wrapper {
 	grid-template-rows: calc( 100vh - 32px );
 }
+
 .dtc-wrapper pre {
 	font-size: 10px;
+}
+
+.dtc-wrapper form.ht-configurator {
+	transition: opacity 200ms;
+}
+.dtc-wrapper.htc-loading form.ht-configurator {
+	opacity: 0.4;
+	pointer-events: none;
 }
 
 .dtc-image-column {
@@ -68,3 +79,5 @@ body.admin-bar .dtc-wrapper {
 .dtc-options-wrapper label span {
 	margin-left: 4px;
 }
+
+
