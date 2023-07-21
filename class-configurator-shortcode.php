@@ -215,16 +215,30 @@ class HT_Configurator {
 	 * Handles the AJAX request for form changes and returns the updated image URL.
 	 */
 	public function ajax_htc_form_change() {
-		error_log( "_POST\n" . print_r( $_POST, true ) . "\n" );
-
 		$form_fields = $_POST['form_fields'] ?? [];
+
 		$variations = get_option( 'htc-variations' )['variation'] ?? [];
 		$image_id = $this->get_matching_variation_image_id( $form_fields, $variations );
 		$image_url = $this->get_image_url_by_id( $image_id );
 
+		$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
+		$price = 0;
+		foreach ( $form_fields as $section_id => $values ) {
+			foreach ( $option_groups as $options_group ) {
+				if ( $section_id == $options_group['id'] ) {
+					foreach ( $options_group['options'] as $option ) {
+						if ( in_array( $option['id'], $values ) ) {
+							$price = $price + ( $option['option_price'] ?? 0 );
+						}
+					}
+				}
+			}
+		}
+
 		wp_send_json_success(
 			array(
 				'image_url' => $image_url,
+				'price'     => number_format( $price, 2, '.', ',') . '€',
 			)
 		);
 	}

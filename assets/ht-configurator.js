@@ -38,9 +38,16 @@ jQuery(document).ready(function($) {
          // configurator.removeClass('htc-loading');
       })
       .done(function (response) {
-
+         // load image
          if(response.data.image_url) {
-            $(document).find('.dtc-image').attr('src', response.data.image_url)
+            configurator.find('.dtc-image').attr('src', response.data.image_url)
+         } else {
+            configurator.removeClass('htc-loading');
+         }
+
+         // set price
+         if(response.data.image_url) {
+            configurator.find('.dtc-total-price').text(response.data.price)
          }
 
       });
