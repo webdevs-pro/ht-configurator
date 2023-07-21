@@ -46,7 +46,7 @@ jQuery(document).ready(function($) {
          }
 
          // set price
-         if(response.data.image_url) {
+         if(response.data.price) {
             configurator.find('.dtc-total-price').text(response.data.price)
          }
 

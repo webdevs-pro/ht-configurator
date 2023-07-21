@@ -175,14 +175,18 @@ class HT_Configurator {
 												$options_group['type'],
 												$options_group['id'],
 												$option['id'],
-												checked( $default_variation[ $options_group['id'] ][0], $option['id'], false )
+												checked( 
+													$default_variation[ $options_group['id'] ][0] ?? '',
+													$option['id'] ?? '',
+													false 
+												)
 											);
 
 											$price_string = '';
 											if ( ! empty( $option['option_price'] ) ) {
 												$price_string = sprintf(
 													'%s €%s',
-													$option['option_price_prefix'],
+													$option['option_price_prefix'] ?? '',
 													$option['option_price']
 												);
 											}
@@ -196,6 +200,10 @@ class HT_Configurator {
 								echo '</fieldset>';
 							}
 						echo '</form>';
+
+						echo '<div class="dtc-total-price">';
+
+						echo '</div>';
 
 					echo '</div>';
 				echo '</div>';
@@ -235,6 +243,8 @@ class HT_Configurator {
 				}
 			}
 		}
+
+		error_log( "price\n" . print_r( $price, true ) . "\n" );
 
 		wp_send_json_success(
 			array(
