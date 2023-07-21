@@ -41,16 +41,29 @@ class HT_Configurator {
 
 
 
+
+
+
+
+
+
+
 	/**
-	 * Get default image URL by image ID.
+	 * Gets the URL of the image that matches the selected variation.
 	 *
-	 * @param int $image_id The image ID.
+	 * This function first finds the best match for the selected variation from a list of variations.
+	 * Then, it retrieves the image URL associated with that matched variation.
 	 *
-	 * @return string Default image URL.
+	 * @param array $selected_variation The selected variation.
+	 * @param array $variations         The list of variations to compare with the selected variation.
+	 *
+	 * @return string The URL of the matching image or an empty string if no match is found.
 	 */
-	private function get_image_url_by_id( $image_id ) {
+	public function get_matching_variation_image_url( $selected_variation, $variations ) {
+		$matched_variation = $this->find_best_match( $selected_variation, $variations );
 		$image_url = '';
 
+		$image_id = $matched_variation['variation_image'];
 		if ( $image_id ) {
 			$image_src = wp_get_attachment_image_src( $image_id, 'large' );
 			$image_url = $image_src[0] ?? '';
@@ -65,65 +78,45 @@ class HT_Configurator {
 
 
 
-	/**
-	 * Get the image ID that matches the selected variation.
-	 *
-	 * @param array $selected_variation The selected variation data.
-	 * @param array $variations         Array of available variations.
-	 *
-	 * @return int|false The image ID or false if no match is found.
-	 */
-	public function get_matching_variation_image_id( $selected_variation, $variations ) {
-		foreach ( $variations as $variation_index => $variation ) {
-			$selected_variation_keys = array_keys( $selected_variation );
-			$variation_keys = array_keys( $variation );
-
-			$missing_keys = array_diff( $selected_variation_keys, $variation_keys );
-			if ( empty( $missing_keys ) ) {
-
-				$match = $this->compare_variation_values( $selected_variation, $variation );
-
-				if ( $match ) {
-					return $variations[ $variation_index ]['variation_image'];
-				}
-			} else {
-				continue;
-			}
-		}
-	}
 
 
+/**
+ * Finds the best match of a selected variation from a list of variations.
+ *
+ * This function compares the selected variation's properties with each of the variations 
+ * in the provided list. The best match is the variation with the highest number of matching 
+ * properties.
+ *
+ * @param array $selected   The selected variation.
+ * @param array $variations The list of variations to compare with the selected variation.
+ *
+ * @return array|null The best match variation or null if no match is found.
+ */
+private function find_best_match( $selected, $variations ) {
+	$best_match = null;
+	$best_match_count = 0;
 
+	foreach ( $variations as $variation ) {
+		$match_count = 0;
 
-
-
-
-	/**
-	 * Compare variation values to check if they match the selected variation.
-	 *
-	 * @param array $selected_variation The selected variation data.
-	 * @param array $variation          The variation data to compare against.
-	 *
-	 * @return bool True if the variations match, false otherwise.
-	 */
-	private function compare_variation_values( $selected_variation, $variation ) {
-		$matched_values = 0;
-
-		foreach ( $selected_variation as $key => $values ) {
-			foreach ( $values as $value ) {
-				if ( in_array( $value, $variation[ $key ] ) ) {
-					$matched_values++;
-					break;
+		foreach ( $selected as $property => $selected_values ) {
+			if ( isset( $variation[ $property ] ) ) {
+				foreach ( $selected_values as $selected_value ) {
+					if ( in_array( $selected_value, $variation[ $property ], true ) ) {
+						$match_count++;
+					}
 				}
 			}
 		}
 
-		if ( $matched_values == count( $selected_variation ) ) {
-			return true;
-		} else {
-			return false;
+		if ( $match_count > $best_match_count ) {
+			$best_match = $variation;
+			$best_match_count = $match_count;
 		}
 	}
+
+	return $best_match;
+}
 
 
 
@@ -228,8 +221,7 @@ class HT_Configurator {
 
 		$variations = get_option( 'htc-variations' )['variation'] ?? [];
 
-		$image_id = $this->get_matching_variation_image_id( $form_fields, $variations );
-		$image_url = $this->get_image_url_by_id( $image_id );
+		$image_url = $this->get_matching_variation_image_url( $form_fields, $variations );
 
 		$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
 		$price = 0;
