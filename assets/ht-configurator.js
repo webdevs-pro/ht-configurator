@@ -1,6 +1,7 @@
 jQuery(document).ready(function($) {
 
-   var form = $('form.ht-configurator');
+   var configurator = $('.dtc-wrapper');
+   var form = configurator.find('form.ht-configurator');
 
    // Listen for changes in any input field within the form and trigger 'submit' event
    form.find('input, select').on('change select', function() {
@@ -35,7 +36,6 @@ jQuery(document).ready(function($) {
          form.removeClass('htc-loading');
       })
       .done(function (response) {
-         console.log('response', response);
 
          if(response.data.image_url) {
             $(document).find('.dtc-image').attr('src', response.data.image_url)

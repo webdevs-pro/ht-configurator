@@ -172,7 +172,20 @@ class HT_Configurator {
 												$option['id'],
 												checked( $default_variation[ $options_group['id'] ][0], $option['id'], false )
 											);
-											echo '<span>' . $option['label'] . '</span>';
+
+											$price_string = '';
+											if ( ! empty( $option['option_price'] ) ) {
+												$price_string = sprintf(
+													'%s €%s',
+													$option['option_price_prefix'],
+													$option['option_price']
+												);
+											}
+											printf(
+												'<span>%s %s</span>',
+												esc_html( $option['label'] ),
+												esc_html( $price_string )
+											);
 										echo '</label>';
 									}
 								echo '</fieldset>';

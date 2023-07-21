@@ -173,6 +173,11 @@ class HT_Metabox {
 									],
 								],
 								[
+									'name' => 'Price prefix',
+									'id'   => 'option_price_prefix',
+									'type' => 'text',
+								],
+								[
 									'name' => 'Option price',
 									'id'   => 'option_price',
 									'type' => 'number',
