@@ -43,11 +43,6 @@ class HT_Configurator {
 
 
 
-
-
-
-
-
 	/**
 	 * Gets the URL of the image that matches the selected variation.
 	 *
