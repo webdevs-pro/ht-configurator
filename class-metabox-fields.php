@@ -110,12 +110,14 @@ class HT_Metabox {
 					'default_state' => 'collapsed',
 					'group_title'   => 'Section: {label}',
 					'clone'         => true,
+					'sort_clone'    => true,
 					'add_button'    => 'Add section',
 					'fields'        => [
 						[
 							'name' => 'Section label',
 							'id'   => 'label',
 							'type' => 'text',
+							'required' => true,
 						],
 						[
 							'name' => 'Description',
@@ -135,6 +137,7 @@ class HT_Metabox {
 							'name' => 'Section ID',
 							'id'   => 'id',
 							'type' => 'text',
+							'required' => true,
 							'desc' => 'This field ONLY accepts these chars: a-z, 0-9, _ and - and the value must be unique. <br><b style="color: red;">Changing the section ID will break existing variations. Please don\'t touch it!</b>',
 							'attributes' => [
 								'oninput' => 'this.value = this.value.replace(/[^a-z0-9_-]/, \'\');',
@@ -142,7 +145,7 @@ class HT_Metabox {
 							],
 						],
 						[
-							'name'          => 'Group',
+							'name'          => 'Options',
 							'id'            => 'options',
 							'type'          => 'group',
 							'collapsible'   => true,
@@ -156,6 +159,7 @@ class HT_Metabox {
 									'name' => 'Option Label',
 									'id'   => 'label',
 									'type' => 'text',
+									'required' => true,  
 								],
 								[
 									'name' => 'Option Description',
@@ -166,6 +170,7 @@ class HT_Metabox {
 									'name' => 'Option ID',
 									'id'   => 'id',
 									'type' => 'text',
+									'required' => true,
 									'desc' => 'This field ONLY accepts these chars: a-z, 0-9, _ and - and the value must be unique within options group. <br><b style="color: red;">Changing the option ID will break existing variations. Please don\'t touch it!</b>',
 									'attributes' => [
 										'oninput' => 'this.value = this.value.replace(/[^a-z0-9_-]/, \'\');',
@@ -272,6 +277,9 @@ class HT_Metabox {
 		];
 
 		$options = get_option( 'htc-options' )['options_group'] ?? [];
+
+		error_log( "options\n" . print_r( $options, true ) . "\n" );
+
 		foreach ( $options as $options_group ) {
 			$meta_boxes['htc_variations']['fields']['default_variant']['fields'][] = array(
 				'name'    => $options_group['label'],
