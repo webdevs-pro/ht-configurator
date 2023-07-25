@@ -153,7 +153,7 @@ class HT_Configurator {
 								echo '<fieldset>';
 									echo '<legend>' . $options_group['label'] . '</legend>';
 
-									if ( $options_group['description'] ) {
+									if ( isset( $options_group['description'] ) && $options_group['description'] ) {
 										echo '<p class="dtc-fieldset-description">' . $options_group['description'] . '</p>';
 									}
 
