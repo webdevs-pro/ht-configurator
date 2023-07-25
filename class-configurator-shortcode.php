@@ -192,11 +192,11 @@ class HT_Configurator {
 										echo '</label>';
 									}
 
-									if ( $options_group['section_popup_text'] ) {
+									if ( isset( $options_group['section_popup_text'] ) && $options_group['section_popup_text'] ) {
 										echo '<a href="#" class="dtc-fieldset-popup-open">Weitere Infos</a>';
 										echo '<div class="dtc-fieldset-popup">';
 											echo '<div class="dtc-fieldset-popup-wrapper">';
-												echo '<p class="dtc-fieldset-popup-heading">' . $options_group['section_popup_text'] ?? '' . '</p>';
+												echo '<p class="dtc-fieldset-popup-heading">' . $options_group['section_popup_heading'] ?? '' . '</p>';
 												echo '<p class="dtc-fieldset-popup-text">' . $options_group['section_popup_text'] . '</p>';
 												echo '<button class="dtc-fieldset-popup-ok">Ok</button>';
 											echo '</div>';
