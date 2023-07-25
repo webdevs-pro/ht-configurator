@@ -56,10 +56,20 @@ class HT_Metabox {
 
 	public function register_settings_pages( $settings_pages ) {
 		$settings_pages[] = [
+			'menu_title' => 'Configurator',
+			'id'         => 'ht-configurator',
+			'position'   => 4,
+			'style'      => 'no-boxes',
+			'columns'    => 1,
+			'submenu_title' => 'Settings',
+			'icon_url'   => 'dashicons-admin-generic',
+		];
+
+		$settings_pages[] = [
 			'menu_title' => 'Options',
 			'id'         => 'htc-options',
 			'position'   => 0,
-			'parent'     => 'ht_configurator',
+			'parent'     => 'ht-configurator',
 			'columns'    => 1,
 			'icon_url'   => 'dashicons-admin-generic',
 			'tabs'       => [
@@ -71,7 +81,7 @@ class HT_Metabox {
 			'menu_title' => 'Variations',
 			'id'         => 'htc-variations',
 			'position'   => 0,
-			'parent'     => 'ht_configurator',
+			'parent'     => 'ht-configurator',
 			'columns'    => 1,
 			'icon_url'   => 'dashicons-admin-generic',
 			'tabs'       => [
