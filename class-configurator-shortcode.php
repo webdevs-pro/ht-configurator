@@ -148,28 +148,24 @@ class HT_Configurator {
 				echo '<div class="dtc-options-column">';
 					echo '<div class="dtc-options-wrapper">';
 
-						echo '<div class="dtc-total-price">';
-
-						echo '</div>';
-
 						echo '<form class="ht-configurator" autocomplete="off">';
 							foreach ( $option_groups as $options_group ) {
 								echo '<fieldset>';
 									echo '<legend>' . $options_group['label'] . '</legend>';
 									foreach ( $options_group['options'] as $option ) {
-										echo '<label>';
-											echo sprintf(
-												'<input type="%s" name="%s" value="%s" %s>',
-												$options_group['type'],
-												$options_group['id'],
-												$option['id'],
-												checked( 
-													$default_variation[ $options_group['id'] ][0] ?? '',
-													$option['id'] ?? '',
-													false 
-												)
-											);
-
+										echo sprintf(
+											'<input id="%s" type="%s" name="%s" value="%s" %s>',
+											$options_group['id'] . '-' . $option['id'],
+											$options_group['type'],
+											$options_group['id'],
+											$option['id'],
+											checked( 
+												$default_variation[ $options_group['id'] ][0] ?? '',
+												$option['id'] ?? '',
+												false 
+											)
+										);
+										echo '<label for="' . $options_group['id'] . '-' . $option['id'] . '">';
 											$price_string = '';
 											if ( ! empty( $option['option_price'] ) ) {
 												$price_string = sprintf(
@@ -189,9 +185,12 @@ class HT_Configurator {
 							}
 						echo '</form>';
 
-						echo '<div class="dtc-total-price">';
-
+						
+						
+						echo '<div class="dtc-options-footer">';
+							echo '<div class="dtc-total-price"></div>';
 						echo '</div>';
+
 
 					echo '</div>';
 				echo '</div>';

@@ -90,7 +90,9 @@ body.admin-bar .dtc-wrapper {
 	margin-left: 4px;
 }
 
+.dtc-options-footer {
 
+}
 
 
 
@@ -98,4 +100,36 @@ body.admin-bar .dtc-wrapper {
 .site-footer {
 	padding-block-start: 0 !important;
 	padding-block-end: 0 !important;
+}
+
+
+
+
+
+
+
+/* Hide the default radio button */
+fieldset input[type="radio"] {
+	display: none;
+}
+
+/* Style the custom radio button as a button */
+fieldset label {
+	display: inline-block;
+	padding: 10px 20px;
+	border: 2px solid #ccc;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+/* Style the selected radio button */
+fieldset input[type="radio"]:checked + label {
+	border: 2px solid blue; /* Blue border for the selected item */
+}
+
+/* Style the label text */
+fieldset span {
+	display: inline-block;
+	vertical-align: middle;
 }
