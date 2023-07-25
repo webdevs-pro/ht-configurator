@@ -93,7 +93,7 @@
 
 
 .dtc-wrapper fieldset {
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 .dtc-wrapper fieldset input[type="radio"] {
 	display: none;
@@ -198,4 +198,32 @@
 .dtc-fieldset-popup-ok:hover {
 	background-color: #007dd1;
 	opacity: 0.8
+}
+
+
+
+
+
+
+
+
+@media(max-width: 890px) {
+	.dtc-wrapper {
+		display: grid;
+		grid-template-columns: 100%;
+		grid-template-rows: 40% 60%;
+		font-size: 14px;
+	}
+	.dtc-image-column {
+		padding-right: 0;
+		height: 100%;
+	}
+	
+	.dtc-options-column {
+		position: relative;
+		padding-left: 0;
+		overflow-y: scroll;
+		background: var(--panel-color);
+	
+	}
 }
