@@ -151,4 +151,38 @@
 }
 .dtc-fieldset-popup {
 	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+.dtc-fieldset-popup-wrapper {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	max-height: 70%;
+	width: 600px;
+	max-width: 80%;
+	border-radius: 10px;
+	background-color: #fff;
+	transform: translate(-50%, -50%);
+	padding: 30px;
+	box-shadow: 0px 30px 60px rgba(0,0,0,.05);
+}
+.dtc-fieldset-popup-heading {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.dtc-fieldset-popup-ok {
+	background-color: #007dd1;
+	border-radius: 30px;
+	border: none;
+	color: #fff;
+	font-weight: bold;
+}
+.dtc-fieldset-popup-ok:hover {
+	background-color: #007dd1;
+	opacity: 0.8
 }

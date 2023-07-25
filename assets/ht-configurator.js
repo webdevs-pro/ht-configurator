@@ -68,6 +68,21 @@ jQuery(document).ready(function($) {
 		htc_resize();
 	})
 
+	$('.dtc-fieldset-popup-open').on('click', function(e) {
+		e.preventDefault();
+		$(this).closest('fieldset').find('.dtc-fieldset-popup').show();
+	})
+
+	$('.dtc-fieldset-popup-ok').on('click', function(e) {
+		e.preventDefault();
+		$(this).closest('.dtc-fieldset-popup').hide();
+	})
+
+
+
+
+
+
 
 
 
