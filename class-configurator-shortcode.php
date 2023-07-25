@@ -196,8 +196,8 @@ class HT_Configurator {
 										echo '<a href="#" class="dtc-fieldset-popup-open">Weitere Infos</a>';
 										echo '<div class="dtc-fieldset-popup">';
 											echo '<div class="dtc-fieldset-popup-wrapper">';
-												echo '<p class="dtc-fieldset-popup-heading">' . $options_group['section_popup_heading'] ?? '' . '</p>';
-												echo '<p class="dtc-fieldset-popup-text">' . $options_group['section_popup_text'] . '</p>';
+												echo '<div class="dtc-fieldset-popup-heading">' . ( $options_group['section_popup_heading'] ?? '' ) . '</div>';
+												echo '<div class="dtc-fieldset-popup-text"><p>' . nl2br( $options_group['section_popup_text'] ) . '</p></div>';
 												echo '<button class="dtc-fieldset-popup-ok">Ok</button>';
 											echo '</div>';
 										echo '</div>';
