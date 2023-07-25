@@ -171,12 +171,19 @@ class HT_Configurator {
 												$price_string = sprintf(
 													'%s €%s',
 													$option['option_price_prefix'] ?? '',
-													$option['option_price']
+													number_format( $option['option_price'], 2, ',', '.' )
 												);
 											}
 											printf(
-												'<span>%s %s</span>',
+												'<div class="option-name">%s</div>',
 												esc_html( $option['label'] ),
+											);
+											printf(
+												'<div class="option-description">%s</div>',
+												esc_html( $option['description'] ?? '' ),
+											);
+											printf(
+												'<div class="option-price">%s</div>',
 												esc_html( $price_string )
 											);
 										echo '</label>';

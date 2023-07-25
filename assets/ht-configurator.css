@@ -4,6 +4,7 @@
 	/* grid-template-columns: 100%; */
 	/* grid-template-rows: 100%; */
 	position: relative;
+	font-size: 15px;
 }
 
 
@@ -117,7 +118,7 @@ fieldset input[type="radio"] {
 fieldset label {
 	display: inline-block;
 	padding: 10px 20px;
-	border: 2px solid #ccc;
+	border: 2px solid #eee;
 	border-radius: 5px;
 	cursor: pointer;
 	margin-right: 10px;
@@ -125,11 +126,23 @@ fieldset label {
 
 /* Style the selected radio button */
 fieldset input[type="radio"]:checked + label {
-	border: 2px solid blue; /* Blue border for the selected item */
+	border: 2px solid #007dd1;
 }
 
 /* Style the label text */
 fieldset span {
 	display: inline-block;
 	vertical-align: middle;
+}
+
+fieldset .option-name {
+	font-weight: bold;
+}
+fieldset .option-description {
+	font-size: 0.9em;
+	opacity: 0.9;
+	margin: 6px 0;
+}
+fieldset .option-price {
+	text-align: right;
 }
