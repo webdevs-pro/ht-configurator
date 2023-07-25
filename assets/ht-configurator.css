@@ -1,20 +1,13 @@
 
 .dtc-wrapper {
-	/* display: grid; */
-	/* grid-template-columns: 100%; */
-	/* grid-template-rows: 100%; */
 	position: relative;
 	font-size: 15px;
+	--panel-width: 380px;
+	--panel-color: #f9f9fa;
 }
 
 
-body.admin-bar .dtc-wrapper {
-	/* grid-template-rows: calc( 100vh - 32px ); */
-}
 
-.dtc-wrapper pre {
-	font-size: 10px;
-}
 
 .dtc-wrapper form.ht-configurator {
 	transition: opacity 200ms;
@@ -26,7 +19,7 @@ body.admin-bar .dtc-wrapper {
 
 
 .dtc-image-column {
-	padding-right: 400px;
+	padding-right: var(--panel-width);
 	height: 100%;
 }
 
@@ -36,10 +29,9 @@ body.admin-bar .dtc-wrapper {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	padding-left: calc( 100% - 400px );
+	padding-left: calc( 100% - var(--panel-width) );
 	overflow-y: scroll;
-	/* background-color: #f9f9f9; */
-	background: linear-gradient(to right, transparent calc(100% - 400px), #f9f9f9 calc(100% - 400px), #f9f9f9 100%);
+	background: linear-gradient(to right, transparent calc(100% - var(--panel-width)), var(--panel-color) calc(100% - var(--panel-width)), var(--panel-color) 100%);
 
 }
 
@@ -48,9 +40,6 @@ body.admin-bar .dtc-wrapper {
 	height: 100%;
 	justify-content: center;
 	align-items: center;
-
-	position: sticky;
-	top: 20px; /* Set the desired offset from the top of the .dtc-image-column */
 	width: 100%;
 	height: 100%;
 }
@@ -65,7 +54,7 @@ body.admin-bar .dtc-wrapper {
 }
 
 .dtc-options-wrapper {
-	padding: 40px;
+	padding: 20px;
 }
 
 
@@ -79,17 +68,11 @@ body.admin-bar .dtc-wrapper {
 
 .dtc-options-wrapper legend {
 	font-weight: bold;
+	font-size: 1.2em;
 }
 
-.dtc-options-wrapper label {
-	display: block;
-	width: 100%;
-	margin: 12px 0;
-	cursor: pointer;
-}
-.dtc-options-wrapper label span {
-	margin-left: 4px;
-}
+
+
 
 .dtc-options-footer {
 
@@ -109,40 +92,63 @@ body.admin-bar .dtc-wrapper {
 
 
 
-/* Hide the default radio button */
-fieldset input[type="radio"] {
+.dtc-wrapper fieldset {
+	margin-bottom: 20px;
+}
+.dtc-wrapper fieldset input[type="radio"] {
 	display: none;
 }
 
-/* Style the custom radio button as a button */
-fieldset label {
-	display: inline-block;
-	padding: 10px 20px;
+
+.dtc-wrapper fieldset label {
+	display: block;
+	padding: 15px 20px;
+	margin: 6px 0;
 	border: 2px solid #eee;
 	border-radius: 5px;
 	cursor: pointer;
-	margin-right: 10px;
+	transition: border-color 250ms, background-color 250ms;
+	background-color: #fcfcfc;
+}
+.dtc-wrapper fieldset label:hover {
+	background-color: #f8f8fa;
 }
 
-/* Style the selected radio button */
-fieldset input[type="radio"]:checked + label {
+.dtc-wrapper fieldset input[type="radio"]:checked + label {
 	border: 2px solid #007dd1;
+	background-color: #fff;
 }
 
-/* Style the label text */
-fieldset span {
-	display: inline-block;
-	vertical-align: middle;
+
+.dtc-wrapper fieldset p.dtc-fieldset-description {
+	opacity: 0.8;
+	line-height: 1.3;
 }
 
-fieldset .option-name {
+.dtc-wrapper fieldset .option-name {
 	font-weight: bold;
+	opacity: 0.85;
 }
-fieldset .option-description {
+.dtc-wrapper fieldset .option-description {
 	font-size: 0.9em;
-	opacity: 0.9;
+	opacity: 0.8;
 	margin: 6px 0;
 }
-fieldset .option-price {
+.dtc-wrapper fieldset .option-price {
 	text-align: right;
+	font-size: 0.9em;
+}
+
+
+
+
+
+
+.dtc-fieldset-popup-open {
+	font-size: 11px;
+	color: #007dd1;
+	text-decoration: underline;
+}
+.dtc-fieldset-popup {
+	display: none;
 }

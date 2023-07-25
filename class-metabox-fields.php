@@ -190,6 +190,17 @@ class HT_Metabox {
 								],
 							],
 						],
+						[
+							'name' => 'Popup heading',
+							'id'   => 'section_popup_heading',
+							'type' => 'text',
+						],
+						[
+							'name' => 'Popup text',
+							'id'   => 'section_popup_text',
+							'type' => 'textarea',
+							'rows' => 8,
+						],
 					],
 				],
 			],

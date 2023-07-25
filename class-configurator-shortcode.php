@@ -152,6 +152,11 @@ class HT_Configurator {
 							foreach ( $option_groups as $options_group ) {
 								echo '<fieldset>';
 									echo '<legend>' . $options_group['label'] . '</legend>';
+
+									if ( $options_group['description'] ) {
+										echo '<p class="dtc-fieldset-description">' . $options_group['description'] . '</p>';
+									}
+
 									foreach ( $options_group['options'] as $option ) {
 										echo sprintf(
 											'<input id="%s" type="%s" name="%s" value="%s" %s>',
@@ -166,28 +171,38 @@ class HT_Configurator {
 											)
 										);
 										echo '<label for="' . $options_group['id'] . '-' . $option['id'] . '">';
-											$price_string = '';
+											// label
+											echo '<div class="option-name">' . esc_html( $option['label'] ) . '</div>';
+
+											// description
+											if ( isset( $option['description'] ) && $option['description'] ) {
+												echo '<div class="option-description">' . esc_html( $option['description'] ) . '</div>';
+											}
+
+											// price
 											if ( ! empty( $option['option_price'] ) ) {
 												$price_string = sprintf(
 													'%s €%s',
 													$option['option_price_prefix'] ?? '',
 													number_format( $option['option_price'], 2, ',', '.' )
 												);
+												echo '<div class="option-price">' . esc_html( $price_string ) . '</div>';
 											}
-											printf(
-												'<div class="option-name">%s</div>',
-												esc_html( $option['label'] ),
-											);
-											printf(
-												'<div class="option-description">%s</div>',
-												esc_html( $option['description'] ?? '' ),
-											);
-											printf(
-												'<div class="option-price">%s</div>',
-												esc_html( $price_string )
-											);
+
 										echo '</label>';
 									}
+
+									if ( $options_group['section_popup_text'] ) {
+										echo '<a href="#" class="dtc-fieldset-popup-open">Weitere Infos</a>';
+										echo '<div class="dtc-fieldset-popup">';
+											echo '<div class="dtc-fieldset-popup-wrapper">';
+												echo '<p class="dtc-fieldset-popup-heading">' . $options_group['section_popup_text'] . '</p>';
+												echo '<p class="dtc-fieldset-popup-text">' . $options_group['section_popup_text'] . '</p>';
+												echo '<button class="dtc-fieldset-popup-ok">Ok</button>';
+											echo '</div>';
+										echo '</div>';
+									}
+
 								echo '</fieldset>';
 							}
 						echo '</form>';
@@ -241,7 +256,7 @@ class HT_Configurator {
 		wp_send_json_success(
 			array(
 				'image_url' => $image_url,
-				'price'     => number_format( $price, 2, '.', ',') . '€',
+				'price'     => number_format( $price, 2, ',', '.') . '€',
 			)
 		);
 	}
