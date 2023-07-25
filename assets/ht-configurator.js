@@ -6,6 +6,8 @@ jQuery(document).ready(function($) {
 	var form = configurator.find('form.ht-configurator');
 	var image_wrapper = configurator.find('.dtc-image-wrapper');
 
+	$('.dtc-options-column').show();
+
 
 	htc_resize();
 	htc_form_change();
@@ -29,7 +31,7 @@ jQuery(document).ready(function($) {
 			form_fields[item.name].push(item.value);
 		});
 
-		configurator.addClass('htc-loading');
+		configurator.addClass('dtc-loading');
 
 		var data = {
 			action: 'htc_form_change', 
@@ -42,14 +44,14 @@ jQuery(document).ready(function($) {
 			function () {}
 		)
 		.always(function () {
-			// configurator.removeClass('htc-loading');
+			// configurator.removeClass('dtc-loading');
 		})
 		.done(function (response) {
 			// load image
 			if(response.data.image_url) {
 				configurator.find('.dtc-image').attr('src', response.data.image_url)
 			} else {
-				configurator.removeClass('htc-loading');
+				configurator.removeClass('dtc-loading');
 			}
 
 			// set price
@@ -61,7 +63,7 @@ jQuery(document).ready(function($) {
 	}
 
 	$('img.dtc-image').on('load', function() {
-		configurator.removeClass('htc-loading');
+		configurator.removeClass('dtc-loading');
 	})
 
 	$(window).on('resize', function() {

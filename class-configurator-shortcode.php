@@ -141,7 +141,7 @@ class HT_Configurator {
 			
 				echo '<div class="dtc-image-column">';	
 					echo '<div class="dtc-image-wrapper">';	
-						echo '<img class="dtc-image" src="/wp-admin/images/loading.gif"/>';
+						echo '<img class="dtc-image" src=""/>';
 					echo '</div>';
 				echo '</div>';
 
