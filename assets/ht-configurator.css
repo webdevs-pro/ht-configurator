@@ -64,7 +64,7 @@
 }
 
 .dtc-options-wrapper {
-	padding: 20px;
+	padding: 30px;
 }
 
 
@@ -85,9 +85,31 @@
 
 
 .dtc-options-footer {
-
+	padding-top: 20px;
+	border-top: 1px solid #ccc;
+	display: flex;
+	align-items: center;
+}
+.dtc-price-wrapper {
+	flex-grow: 1;
+}
+.dtc-total-text {
+	font-size: 0.9em;
+	opacity: 0.9;
 }
 
+
+.dtc-submit-wrapper button {
+	background-color: #007dd1;
+	color: #fff;
+	font-weight: bold;
+	padding: 6px 20px;
+	border: none;
+}
+.dtc-submit-wrapper button:focus,
+.dtc-submit-wrapper button:hover {
+	background-color: #007dd1bd;
+}
 
 
 
@@ -104,6 +126,7 @@
 
 .dtc-wrapper fieldset {
 	margin-bottom: 30px;
+	padding: 0;
 }
 .dtc-wrapper fieldset input[type="radio"] {
 	display: none;
@@ -219,6 +242,11 @@
 }
 
 
+
+.dtc-total-price {
+	font-size: 22px;
+	font-weight: bold;
+}
 
 
 

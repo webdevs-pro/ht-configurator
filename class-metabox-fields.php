@@ -10,6 +10,7 @@ class HT_Metabox {
 
 	public function __construct() {
 		add_filter( 'mb_settings_pages', array( $this, 'register_settings_pages' ) );
+		add_filter( 'rwmb_meta_boxes', array( $this, 'add_settings_meta_boxes' ), 10);
 		add_filter( 'rwmb_meta_boxes', array( $this, 'add_options_meta_boxes' ), 10);
 		add_filter( 'rwmb_meta_boxes', array( $this, 'add_variations_meta_boxes' ), 10);
 		add_action( 'admin_print_styles', array( $this, 'print_scripts_and_styles' ) );
@@ -56,19 +57,18 @@ class HT_Metabox {
 
 	public function register_settings_pages( $settings_pages ) {
 		$settings_pages[] = [
-			'menu_title' => 'Configurator',
-			'id'         => 'ht-configurator',
-			'position'   => 4,
-			'style'      => 'no-boxes',
-			'columns'    => 1,
+			'menu_title'    => 'Configurator',
+			'id'            => 'ht-configurator',
+			'position'      => 4,
+			'columns'       => 2,
 			'submenu_title' => 'Settings',
-			'icon_url'   => 'dashicons-admin-generic',
+			'page_title'    => 'Test',
+			'icon_url'      => 'dashicons-admin-generic',
 		];
 
 		$settings_pages[] = [
 			'menu_title' => 'Options',
 			'id'         => 'htc-options',
-			'position'   => 0,
 			'parent'     => 'ht-configurator',
 			'columns'    => 1,
 			'icon_url'   => 'dashicons-admin-generic',
@@ -78,19 +78,75 @@ class HT_Metabox {
 			],
 		];
 		$settings_pages[] = [
-			'menu_title' => 'Variations',
-			'id'         => 'htc-variations',
-			'position'   => 0,
-			'parent'     => 'ht-configurator',
-			'columns'    => 1,
-			'icon_url'   => 'dashicons-admin-generic',
-			'tabs'       => [
+			'menu_title'    => 'Variations',
+			'id'            => 'htc-variations',
+			'parent'        => 'ht-configurator',
+			'columns'       => 1,
+			'icon_url'      => 'dashicons-admin-generic',
+			'tabs'          => [
 				'variations' => 'Variations',
 				'backup'     => 'Backup',
 			],
 		];
 
 		return $settings_pages;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public function add_settings_meta_boxes( $meta_boxes ) {
+
+		ob_start();
+		?>
+
+		<div class="alert alert-warning">This is a custom HTML content</div>
+
+		<?php
+		$html = ob_get_clean();
+
+		$meta_boxes['htc-settings-main'] = [
+			'title'  => 'Settings',
+			'id'     => 'htc-options',
+			'settings_pages' => ['ht-configurator'],
+			'fields' => [
+				[
+					'name' => 'Email for requests',
+					'id'   => 'request_email',
+					'type' => 'text',
+				],
+				[
+					'name' => 'Submit button label',
+					'id'   => 'submit_button_text',
+					'type' => 'text',
+				],
+			],
+		];
+
+		$meta_boxes['htc-settings-support'] = [
+			'title'  => 'Support',
+			'id'     => 'htc-options-side',
+			'settings_pages' => ['ht-configurator'],
+			'context' => 'side',
+			'fields' => [
+				[
+					'type' => 'custom_html',
+					'std'  => $html,
+				],
+			],
+		];
+
+
+		return $meta_boxes;
 	}
 
 

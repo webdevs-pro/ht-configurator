@@ -127,7 +127,7 @@ class HT_Configurator {
 	public function hot_tube_configurator_shortcode() {
 		ob_start();
 
-
+			$settings = get_option( 'ht-configurator' );
 			$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
 			$default_variation = get_option( 'htc-variations' )['default_variation'] ?? [];
 
@@ -208,9 +208,18 @@ class HT_Configurator {
 						echo '</form>';
 
 						
-						
 						echo '<div class="dtc-options-footer">';
-							echo '<div class="dtc-total-price"></div>';
+
+							echo '<div class="dtc-price-wrapper">';
+								echo '<div class="dtc-total-text">Gesamtbetrag</div>';
+								echo '<div class="dtc-total-price"></div>';
+							echo '</div>';
+
+
+							echo '<div class="dtc-submit-wrapper">';
+
+								echo '<button>' . ( $settings['submit_button_text'] ?? 'Submit' ) . '</div>'; 
+							echo '</div>';
 						echo '</div>';
 
 
