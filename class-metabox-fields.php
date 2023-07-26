@@ -120,9 +120,8 @@ class HT_Metabox {
 			'settings_pages' => ['ht-configurator'],
 			'fields' => [
 				[
-					'name' => 'Email for requests',
-					'id'   => 'request_email',
-					'type' => 'text',
+					'type' => 'heading',
+					'name' => 'General',
 				],
 				[
 					'name' => 'Submit button label',
@@ -130,7 +129,26 @@ class HT_Metabox {
 					'type' => 'text',
 				],
 				[
-					'name' => 'WooCommerce endpoint',
+					'type' => 'heading',
+					'name' => 'Email',
+				],
+				[
+					'name' => 'Email adress to send request',
+					'id'   => 'request_email',
+					'type' => 'text',
+					'desc' => 'List of email addresses separated by commas',
+				],
+				[
+					'name' => 'Email subject',
+					'id'   => 'request_email_subject',
+					'type' => 'text',
+				],
+				[
+					'type' => 'heading',
+					'name' => 'WooCommerce',
+				],
+				[
+					'name' => 'WooCommerce endpoint URL',
 					'id'   => 'woo_endpoint',
 					'type' => 'text',
 				],

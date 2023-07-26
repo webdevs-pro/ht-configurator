@@ -58,7 +58,7 @@ class HT_Configurator {
 	 */
 	public function get_matching_variation_image_url( $selected_variation, $variations ) {
 		$matched_variation = $this->find_best_match( $selected_variation, $variations );
-		$image_url = '';
+		$image_url         = '';
 
 		$image_id = $matched_variation['variation_image'];
 		if ( $image_id ) {
@@ -90,8 +90,8 @@ class HT_Configurator {
 	 * @return array|null The best match variation or null if no match is found.
 	 */
 	private function find_best_match( $selected, $variations ) {
-		$best_match = null;
 		$best_match_count = 0;
+		$best_match       = null;
 
 		foreach ( $variations as $variation ) {
 			$match_count = 0;
@@ -129,15 +129,9 @@ class HT_Configurator {
 	public function hot_tube_configurator_shortcode() {
 		ob_start();
 
-			$settings = get_option( 'ht-configurator' );
-			$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
+			$settings          = get_option( 'ht-configurator' );
+			$option_groups     = get_option( 'htc-options' )['options_group'] ?? [];
 			$default_variation = get_option( 'htc-variations' )['default_variation'] ?? [];
-
-			// $variations = get_option( 'htc-variations' )['variation'] ?? [];
-			// $default_image_id = $this->get_matching_variation_image_id( $default_variation, $variations );
-			// $default_image_url = $this->get_image_url_by_id( $default_image_id );
-
-
 
 			echo '<div class="dtc-wrapper">';
 			
@@ -253,14 +247,12 @@ class HT_Configurator {
 	 * Handles the AJAX request for form changes and returns the updated image URL.
 	 */
 	public function ajax_htc_form_change() {
-		$form_fields = $_POST['form_fields'] ?? [];
-
-		$variations = get_option( 'htc-variations' )['variation'] ?? [];
-
-		$image_url = $this->get_matching_variation_image_url( $form_fields, $variations );
-
+		$form_fields   = $_POST['form_fields'] ?? [];
+		$variations    = get_option( 'htc-variations' )['variation'] ?? [];
+		$image_url     = $this->get_matching_variation_image_url( $form_fields, $variations );
 		$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
-		$price = 0;
+		$price         = 0;
+
 		foreach ( $form_fields as $section_id => $values ) {
 			foreach ( $option_groups as $options_group ) {
 				if ( $section_id == $options_group['id'] ) {
@@ -294,18 +286,16 @@ class HT_Configurator {
 	 */
 	public function ajax_htc_form_submit() {
 		$form_fields = $_POST['form_fields'] ?? [];
-		$settings = get_option( 'ht-configurator' );
+		$settings    = get_option( 'ht-configurator' );
 
 		if ( isset( $form_fields['submit_to_woo'] ) && isset( $settings['woo_endpoint'] ) ) {
-			$product_publish = $this->submit_to_woocommerce( $form_fields );
+			$product_publish = $this->submit_to_woocommerce( $form_fields, $settings );
 		}
 
 		if ( isset( $settings['request_email'] ) ) {
-			$send_email = $this->send_request_email( $form_fields );
+			$send_email = $this->send_request_email( $form_fields, $settings );
 		}
 
-
-		error_log( "form_fields\n" . print_r( $form_fields, true ) . "\n" );
 
 
 
@@ -327,7 +317,7 @@ class HT_Configurator {
 	 *
 	 * Handles the AJAX request for form submit and returns the message.
 	 */
-	private function submit_to_woocommerce( $form_fields ) {
+	private function submit_to_woocommerce( $form_fields, $settings ) {
 
 	}
 
@@ -342,8 +332,30 @@ class HT_Configurator {
 	 *
 	 * Handles the AJAX request for form submit and returns the message.
 	 */
-	private function send_request_email( $form_fields ) {
+	private function send_request_email( $form_fields, $settings ) {
 
+		$to           = $settings['request_email'];
+		$to           = explode( ',', $to );
+		$valid_emails = array();
+		
+		foreach ( $to as $email ) {
+			 $sanitized_email = sanitize_email( $email );
+			 if ( is_email( $sanitized_email ) ) {
+				  $valid_emails[] = $sanitized_email;
+			 } else {
+				  error_log( "Invalid email address: $email" );
+			 }
+		}
+		
+		$subject = $settings['request_email_subject'];
+		$body    = 'The email body content';
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+		
+		if ( wp_mail( $valid_emails, $subject, $body, $headers ) ) {
+			 error_log( 'Email successfully sent' );
+		} else {
+			 error_log( 'An unexpected error occurred' );
+		}
 	}
 }
 
