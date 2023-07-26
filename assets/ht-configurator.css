@@ -248,3 +248,34 @@
 		background: var(--panel-color);
 	}
 }
+
+/* --- Simple checkbox --- */
+.dtc-wrapper fieldset.htc-no-fieldset-styling label {
+	display: block;
+	padding: 5px 2px;
+	margin: 6px 0;
+	border: none;
+	border-radius: 0px;
+	cursor: pointer;
+	transition: none;
+	background-color: unset;
+	box-shadow: none;
+}
+.dtc-wrapper fieldset.htc-no-fieldset-styling label span {
+	font-weight: bold;
+	opacity: 0.85;
+}
+.dtc-wrapper fieldset.htc-no-fieldset-styling label p {
+	margin-left: 24px;
+	opacity: 0.6;
+	font-size: 0.9em;
+	margin-top: 2px;
+}
+.htc-simple-checkbox input[type="checkbox"] {
+	transform: scale(1.5); /* makes checkbox 50% larger */
+	margin-right: 10px;
+}
+
+.htc-simple-checkbox input[type="checkbox"]:checked {
+	background-color: #007dd1;
+}

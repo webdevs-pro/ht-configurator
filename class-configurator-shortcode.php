@@ -13,6 +13,8 @@ class HT_Configurator {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'wp_ajax_htc_form_change',  array( $this, 'ajax_htc_form_change' ) );
       add_action( 'wp_ajax_nopriv_htc_form_change',  array( $this, 'ajax_htc_form_change' ) );
+		add_action( 'wp_ajax_htc_form_submit',  array( $this, 'ajax_htc_form_submit' ) );
+      add_action( 'wp_ajax_nopriv_htc_form_submit',  array( $this, 'ajax_htc_form_submit' ) );
 	}
 
 
@@ -205,11 +207,21 @@ class HT_Configurator {
 
 								echo '</fieldset>';
 							}
+
+							if ( current_user_can( 'manage_options' ) ) {
+								echo '<fieldset class="htc-no-fieldset-styling">';
+									echo '<legend>Admin only options</legend>';
+									echo '<label class="htc-simple-checkbox">';
+										echo '<input id="submit-to-woo-checkbox" type="checkbox" name="submit_to_woo" value="1">';
+										echo '<span>Submit to WooCommerce</span>';
+										echo '<p>* as draft</p>';
+									echo '</label>';
+								echo '</fieldset>';
+							}
 						echo '</form>';
 
 						
 						echo '<div class="dtc-options-footer">';
-
 							echo '<div class="dtc-price-wrapper">';
 								echo '<div class="dtc-total-text">Gesamtbetrag</div>';
 								echo '<div class="dtc-total-price"></div>';
@@ -217,7 +229,6 @@ class HT_Configurator {
 
 
 							echo '<div class="dtc-submit-wrapper">';
-
 								echo '<button>' . ( $settings['submit_button_text'] ?? 'Submit' ) . '</div>'; 
 							echo '</div>';
 						echo '</div>';
@@ -268,6 +279,71 @@ class HT_Configurator {
 				'price'     => number_format( $price, 2, ',', '.') . '€',
 			)
 		);
+	}
+
+
+
+
+
+
+
+	/**
+	 * AJAX callback for form submit.
+	 *
+	 * Handles the AJAX request for form submit and returns the message.
+	 */
+	public function ajax_htc_form_submit() {
+		$form_fields = $_POST['form_fields'] ?? [];
+		$settings = get_option( 'ht-configurator' );
+
+		if ( isset( $form_fields['submit_to_woo'] ) && isset( $settings['woo_endpoint'] ) ) {
+			$product_publish = $this->submit_to_woocommerce( $form_fields );
+		}
+
+		if ( isset( $settings['request_email'] ) ) {
+			$send_email = $this->send_request_email( $form_fields );
+		}
+
+
+		error_log( "form_fields\n" . print_r( $form_fields, true ) . "\n" );
+
+
+
+		wp_send_json_success(
+			array(
+				'message' => 'Submitted!'
+			)
+		);
+	}
+
+
+
+
+
+
+
+	/**
+	 * Submit form data to remote WooCommerce.
+	 *
+	 * Handles the AJAX request for form submit and returns the message.
+	 */
+	private function submit_to_woocommerce( $form_fields ) {
+
+	}
+
+
+
+
+
+
+
+	/**
+	 * Submit form data to remote WooCommerce.
+	 *
+	 * Handles the AJAX request for form submit and returns the message.
+	 */
+	private function send_request_email( $form_fields ) {
+
 	}
 }
 

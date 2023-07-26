@@ -4,7 +4,6 @@ jQuery(document).ready(function($) {
 
 	var configurator = $('.dtc-wrapper');
 	var form = configurator.find('form.ht-configurator');
-	var image_wrapper = configurator.find('.dtc-image-wrapper');
 
 	$('.dtc-options-column').show();
 
@@ -14,9 +13,8 @@ jQuery(document).ready(function($) {
 
 
 
-	// Listen for changes in any input field within the form and trigger 'submit' event
+	// Listen for changes in any input field within the form
 	form.find('input, select').on('change select', function() {
-		// form.trigger('submit');
 		htc_form_change();
 	});
 
@@ -36,7 +34,7 @@ jQuery(document).ready(function($) {
 		var data = {
 			action: 'htc_form_change', 
 			form_fields: form_fields,
-	};
+		};
 
 		$.post(
 			ht_configurator.ajaxurl, 
@@ -94,5 +92,46 @@ jQuery(document).ready(function($) {
 		var distance_to_screen_bottom = viewport_height - element_top;
 		configurator.height(distance_to_screen_bottom);
 	} 
+
+
+
+
+
+	// Listen for changes in any input field within the form and trigger 'submit' event
+	configurator.find('.dtc-submit-wrapper button').on('click', function() {
+		var form_fields = {};
+		$.each(form.serializeArray(), function (index, item) {
+			// Initialize as an empty array if undefined
+			if (!form_fields[item.name]) {
+				form_fields[item.name] = [];
+			}
+
+			form_fields[item.name].push(item.value);
+		});
+
+		configurator.addClass('dtc-loading');
+
+		var data = {
+			action: 'htc_form_submit', 
+			form_fields: form_fields,
+		};
+
+		$.post(
+			ht_configurator.ajaxurl, 
+			data, 
+			function () {}
+		)
+		.always(function () {
+			// configurator.removeClass('dtc-loading');
+		})
+		.done(function (response) {
+
+			console.log('response', response);
+
+			configurator.removeClass('dtc-loading');
+
+
+		});
+	});
 
 });

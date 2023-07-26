@@ -129,6 +129,11 @@ class HT_Metabox {
 					'id'   => 'submit_button_text',
 					'type' => 'text',
 				],
+				[
+					'name' => 'WooCommerce endpoint',
+					'id'   => 'woo_endpoint',
+					'type' => 'text',
+				],
 			],
 		];
 
