@@ -288,11 +288,19 @@ class HT_Configurator {
 		$form_fields = $_POST['form_fields'] ?? [];
 		$settings    = get_option( 'ht-configurator' );
 
-		if ( isset( $form_fields['submit_to_woo'] ) && isset( $settings['woo_endpoint'] ) ) {
+		if ( 
+			isset( $form_fields['submit_to_woo'] ) && 
+			isset( $settings['woo_endpoint'] )
+		) {
 			$product_publish = $this->submit_to_woocommerce( $form_fields, $settings );
 		}
 
-		if ( isset( $settings['request_email'] ) ) {
+		if ( 
+			isset( $settings['request_email'] ) &&
+			$settings['request_email'] &&
+			isset( $settings['request_email_live_mode'] ) &&
+			$settings['request_email_live_mode'] 
+		) {
 			$send_email = $this->send_request_email( $form_fields, $settings );
 		}
 

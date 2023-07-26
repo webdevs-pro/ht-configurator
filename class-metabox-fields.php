@@ -133,6 +133,12 @@ class HT_Metabox {
 					'name' => 'Email',
 				],
 				[
+					'name' => 'Live mode',
+					'id'   => 'request_email_live_mode',
+					'type' => 'checkbox',
+					'desc' => 'If the checkbox is unchecked, only an administrator can send an email request.',
+				],
+				[
 					'name' => 'Email adress to send request',
 					'id'   => 'request_email',
 					'type' => 'text',
