@@ -1,4 +1,4 @@
-
+/* --- Basic Setup --- */
 .dtc-wrapper {
 	position: relative;
 	font-size: 15px;
@@ -7,33 +7,19 @@
 	min-height: 50vh;
 }
 
-
-
-
 .dtc-wrapper form.ht-configurator {
 	transition: opacity 200ms;
 }
+
 .dtc-wrapper.dtc-loading form.ht-configurator {
 	opacity: 0.4;
 	pointer-events: none;
 }
 
-
+/* --- Image Column --- */
 .dtc-image-column {
 	padding-right: var(--panel-width);
 	height: 100%;
-}
-
-.dtc-options-column {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	padding-left: calc( 100% - var(--panel-width) );
-	overflow-y: scroll;
-	background: linear-gradient(to right, transparent calc(100% - var(--panel-width)), var(--panel-color) calc(100% - var(--panel-width)), var(--panel-color) 100%);
-	display: none; /* will be shown on load */
 }
 
 .dtc-image-wrapper {
@@ -48,8 +34,6 @@
 	background-repeat: no-repeat;
 }
 
-
-
 .dtc-image-wrapper img.dtc-image {
 	object-fit: contain;
 	object-position: center;
@@ -63,14 +47,22 @@
 	opacity: 0.7;
 }
 
+/* --- Options Column --- */
+.dtc-options-column {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding-left: calc( 100% - var(--panel-width) );
+	overflow-y: scroll;
+	background: linear-gradient(to right, transparent calc(100% - var(--panel-width)), var(--panel-color) calc(100% - var(--panel-width)), var(--panel-color) 100%);
+	display: none; /* will be shown on load */
+}
+
 .dtc-options-wrapper {
 	padding: 30px;
 }
-
-
-
-
-
 
 .dtc-options-wrapper fieldset {
 	border: none;
@@ -81,23 +73,27 @@
 	font-size: 1.2em;
 }
 
-
-
-
+/* --- Options Footer --- */
 .dtc-options-footer {
 	padding-top: 20px;
 	border-top: 1px solid #ccc;
 	display: flex;
 	align-items: center;
 }
+
 .dtc-price-wrapper {
 	flex-grow: 1;
 }
+
+.dtc-total-price {
+	font-size: 22px;
+	font-weight: bold;
+}
+
 .dtc-total-text {
 	font-size: 0.9em;
 	opacity: 0.9;
 }
-
 
 .dtc-submit-wrapper button {
 	background-color: #007dd1;
@@ -106,32 +102,27 @@
 	padding: 6px 20px;
 	border: none;
 }
+
 .dtc-submit-wrapper button:focus,
 .dtc-submit-wrapper button:hover {
 	background-color: #007dd1bd;
 }
 
-
-
+/* --- Site Footer --- */
 .site-footer {
 	padding-block-start: 0 !important;
 	padding-block-end: 0 !important;
 }
 
-
-
-
-
-
-
+/* --- Fieldset Options --- */
 .dtc-wrapper fieldset {
 	margin-bottom: 30px;
 	padding: 0;
 }
+
 .dtc-wrapper fieldset input[type="radio"] {
 	display: none;
 }
-
 
 .dtc-wrapper fieldset label {
 	display: block;
@@ -144,23 +135,14 @@
 	background-color: #fff;
 	box-shadow: 0px 30px 60px rgba(0,0,0,.05);
 }
-.dtc-wrapper fieldset label:hover {
-	background-color: #feffff;
-}
 
 .dtc-wrapper fieldset input[type="radio"]:checked + label {
 	border: 2px solid #007dd1;
 	background-color: #fff;
-	/* box-shadow: 0px 30px 60px #e6f2fa; */
 	box-shadow: 0px 30px 60px rgba(0,0,0,.05),0px 10px 20px #f2f9fd;
 }
-/* .dtc-wrapper fieldset input[type="radio"]:checked + label {
-	border: 2px solid #007dd1;
-	background-color: #007dd1;
-	color: #fff;
-} */
 
-
+/* --- Additional Fieldset Options --- */
 .dtc-wrapper fieldset p.dtc-fieldset-description {
 	opacity: 0.8;
 	line-height: 1.3;
@@ -170,27 +152,26 @@
 	font-weight: bold;
 	opacity: 0.85;
 }
+
 .dtc-wrapper fieldset .option-description {
 	font-size: 0.9em;
 	opacity: 0.8;
 	margin-top: 6px;
 }
+
 .dtc-wrapper fieldset .option-price {
 	text-align: right;
 	font-size: 0.9em;
 	margin-top: 6px;
 }
 
-
-
-
-
-
+/* --- Fieldset Popups --- */
 .dtc-fieldset-popup-open {
-	font-size: 11px;
+	font-size: 12px;
 	color: #007dd1;
-	text-decoration: underline;
+	text-decoration: underline !important;
 }
+
 .dtc-fieldset-popup {
 	display: none;
 	position: fixed;
@@ -201,6 +182,7 @@
 	background-color: rgba(0, 0, 0, 0.1);
 	z-index: 99;
 }
+
 .dtc-fieldset-popup-wrapper {
 	position: absolute;
 	top: 50%;
@@ -217,11 +199,13 @@
 	flex-direction: column;
 	margin-top: 50px;
 }
+
 .dtc-fieldset-popup-heading {
 	font-size: 1.2em;
 	font-weight: bold;
 	margin-bottom: 10px;
 }
+
 .dtc-fieldset-popup-text {
 	flex-grow: 1;
 	overflow-y: scroll;
@@ -236,23 +220,13 @@
 	font-weight: bold;
 	align-self: flex-end;
 }
+
 .dtc-fieldset-popup-ok:hover {
 	background-color: #007dd1;
 	opacity: 0.8
 }
 
-
-
-.dtc-total-price {
-	font-size: 22px;
-	font-weight: bold;
-}
-
-
-
-
-
-
+/* --- Media Query for Small Screens --- */
 @media(max-width: 890px) {
 	.dtc-wrapper {
 		display: grid;
@@ -263,6 +237,8 @@
 	.dtc-image-column {
 		padding-right: 0;
 		height: 100%;
+		box-shadow: 0px 30px 60px rgba(0,0,0,.04);
+		z-index: 2;
 	}
 	
 	.dtc-options-column {
@@ -270,6 +246,5 @@
 		padding-left: 0;
 		overflow-y: scroll;
 		background: var(--panel-color);
-	
 	}
 }
