@@ -226,8 +226,13 @@ class HT_Metabox {
 			'tab'            => 'general',
 			'fields'         => [
 				[
-					'name' => 'Submit button label',
-					'id'   => 'submit_button_text',
+					'name' => 'Coupon section heading',
+					'id'   => 'coupon_section_heading',
+					'type' => 'text',
+				],
+				[
+					'name' => '"Apply Coupon" Button Label',
+					'id'   => 'coupon_section_apply_button_label',
 					'type' => 'text',
 				],
 				[
@@ -236,6 +241,11 @@ class HT_Metabox {
 					'type'    => 'select',
 					'placeholder' => 'Select page',
 					'options' => $this->get_pages_as_array(),
+				],
+				[
+					'name' => 'Submit button label',
+					'id'   => 'submit_button_text',
+					'type' => 'text',
 				],
 			],
 		];
@@ -573,7 +583,7 @@ class HT_Metabox {
 						],
 						[
 							'name' => 'Code',
-							'id'   => 'coupon_id',
+							'id'   => 'coupon_code',
 							'type' => 'text',
 						],
 						[
