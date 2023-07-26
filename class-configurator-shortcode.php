@@ -341,10 +341,10 @@ class HT_Configurator {
 	 * Handles the AJAX request for form submit and returns the message.
 	 */
 	private function send_request_email( $form_fields, $settings ) {
-
-		$to           = $settings['request_email'];
-		$to           = explode( ',', $to );
-		$valid_emails = array();
+		// to
+		$to            = $settings['request_email'];
+		$to            = explode( ',', $to );
+		$valid_emails  = array();
 		
 		foreach ( $to as $email ) {
 			 $sanitized_email = sanitize_email( $email );
@@ -355,8 +355,34 @@ class HT_Configurator {
 			 }
 		}
 		
+		// subject
 		$subject = $settings['request_email_subject'];
-		$body    = 'The email body content';
+
+		// body
+		$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
+		$body = '';
+		foreach ( $option_groups as $group ) {
+			if ( ! isset( $form_fields[ $group['id'] ] ) ) {
+				continue;
+			}
+
+			$body .= '<b>' . $group['label'] . '</b>: ';
+
+			$selected_option_labels = [];
+			foreach ( $form_fields[ $group['id'] ] as $selected_option_id ) {
+				foreach ( $group['options'] as $option ) {
+					if ( $option['id'] == $selected_option_id ) {
+						$selected_option_labels[] = $option['label'];
+					}
+				}
+			}
+
+			$body .= implode( ',', $selected_option_labels ) . '<br>';
+
+		}
+
+
+		// headers
 		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 		
 		if ( wp_mail( $valid_emails, $subject, $body, $headers ) ) {

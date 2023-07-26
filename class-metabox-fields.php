@@ -34,15 +34,15 @@ class HT_Metabox {
 	public function print_scripts_and_styles() {
 		global $pagenow;
 
-		if ( $pagenow == 'admin.php' && $_GET['page'] == 'htc-options' ) {
-			$cm_settings['codeEditor'] = wp_enqueue_code_editor( array( 'type' => 'application/json' ) );
-			wp_localize_script( 'jquery', 'cm_settings', $cm_settings );
-	
-			wp_enqueue_script( 'wp-theme-plugin-editor' );
-			wp_enqueue_style( 'wp-codemirror' );
-	
-			// wp_enqueue_style( 'codemirror-theme-3024-night', plugin_dir_url( __FILE__ ) . 'assets/3024-night.css' );
-			wp_enqueue_style( 'codemirror-theme-3024-night', plugin_dir_url( __FILE__ ) . 'assets/monokai.css' );
+		if ( $pagenow == 'admin.php' && $_GET['page'] == 'ht-configurator' ) {
+			?>
+			<style>
+				/* always show sidebar */
+				#htc-options-side {
+					display: block !important;
+				}
+			</style>
+			<?php
 		}
 	}
 
@@ -63,24 +63,59 @@ class HT_Metabox {
 		$default_group_item_fields = array();
 		$group_fields = array_column( $field['fields'], 'id' );
 		foreach ( $group_fields as $field_id ) {
-				$default_group_item_fields[$field_id] = '';
+			$default_group_item_fields[$field_id] = '';
 		}
 
 		if ( is_array( $value) && count( $value ) >= 1 && ! empty( $value[0] ) ) {
-				array_unshift( $value, $default_group_item_fields );
+			array_unshift( $value, $default_group_item_fields );
 		}
 
 		?>
 		<style>
-				.hidden-first-item-clonable-group .rwmb-group-clone:first-child {
-					display: none;
-				}
+			.hidden-first-item-clonable-group .rwmb-group-clone:first-child {
+				display: none;
+			}
 		</style>
 		<?php
 
 		return $value;
 	}
 
+
+
+
+
+
+
+
+
+
+
+	private function  get_pages_as_array( $parent_id = 0, $level = 0 ) {
+		$args = array(
+			'parent' => $parent_id,
+			'sort_column' => 'menu_order',
+		);
+
+		$pages = get_pages( $args );
+		$page_array = array();
+
+		if ( $pages ) {
+			foreach ( $pages as $page ) {
+				// Adding dashes for subpages
+				$prefix = str_repeat( '— ', $level );
+				$page_array[$page->ID] = $prefix . $page->post_title;
+				
+				// Retrieve subpages if exist
+				$subpages = $this->get_pages_as_array( $page->ID, $level + 1 );
+				if ( ! empty( $subpages ) ) {
+					$page_array += $subpages;
+				}
+			}
+		}
+
+		return $page_array;
+	}
 
 
 
@@ -102,6 +137,12 @@ class HT_Metabox {
 			'submenu_title' => 'Settings',
 			'page_title'    => 'Test',
 			'icon_url'      => 'dashicons-admin-generic',
+			'tabs'          => [
+				'general'         => 'General',
+				'email'           => 'Email',
+				'woo-integration' => 'WooCommerce integration',
+				'backup'          => 'Backup',
+			],
 		];
 
 		$settings_pages[] = [
@@ -158,29 +199,54 @@ class HT_Metabox {
 		ob_start();
 		?>
 
-		<div class="alert alert-warning">This is a custom HTML content</div>
+			<div class="alert alert-warning">This is a custom HTML content</div>
 
 		<?php
 		$html = ob_get_clean();
 
-		$meta_boxes['htc-settings-main'] = [
-			'title'  => 'Settings',
-			'id'     => 'htc-options',
+		$meta_boxes['htc-settings-support'] = [
+			'title'          => 'Support',
+			'id'             => 'htc-options-side',
 			'settings_pages' => ['ht-configurator'],
-			'fields' => [
+			'context'        => 'side',
+			'tab'            => 'general',
+			'fields'         => [
 				[
-					'type' => 'heading',
-					'name' => 'General',
+					'type' => 'custom_html',
+					'std'  => $html,
 				],
+			],
+		];
+		
+
+		$meta_boxes['htc-settings-general'] = [
+			'title'          => 'Settings',
+			'id'             => 'htc-settings-general',
+			'settings_pages' => ['ht-configurator'],
+			'tab'            => 'general',
+			'fields'         => [
 				[
 					'name' => 'Submit button label',
 					'id'   => 'submit_button_text',
 					'type' => 'text',
 				],
 				[
-					'type' => 'heading',
-					'name' => 'Email',
+					'name'    => 'Terms and condition page',
+					'id'      => 'coupon_type',
+					'type'    => 'select',
+					'placeholder' => 'Select page',
+					'options' => $this->get_pages_as_array(),
 				],
+			],
+		];
+
+
+		$meta_boxes['htc-settings-email'] = [
+			'title'          => 'Email',
+			'id'             => 'htc-settings-email',
+			'settings_pages' => ['ht-configurator'],
+			'tab'            => 'email',
+			'fields'         => [
 				[
 					'name' => 'Live mode',
 					'id'   => 'request_email_live_mode',
@@ -198,10 +264,16 @@ class HT_Metabox {
 					'id'   => 'request_email_subject',
 					'type' => 'text',
 				],
-				[
-					'type' => 'heading',
-					'name' => 'WooCommerce',
-				],
+			],
+		];
+
+
+		$meta_boxes['htc-settings-woo'] = [
+			'title'          => 'Settings',
+			'id'             => 'htc-settings-woo',
+			'settings_pages' => ['ht-configurator'],
+			'tab'            => 'woo-integration',
+			'fields'         => [
 				[
 					'name' => 'WooCommerce endpoint URL',
 					'id'   => 'woo_endpoint',
@@ -210,19 +282,19 @@ class HT_Metabox {
 			],
 		];
 
-		$meta_boxes['htc-settings-support'] = [
-			'title'  => 'Support',
-			'id'     => 'htc-options-side',
+
+		$meta_boxes['htc-settings-backup'] = [
+			'title'          => 'Backup & restore options',
+			'id'             => 'htc-settings-backup',
 			'settings_pages' => ['ht-configurator'],
-			'context' => 'side',
-			'fields' => [
+			'tab'            => 'backup',
+			'fields'         => [
 				[
-					'type' => 'custom_html',
-					'std'  => $html,
+					'name' => 'Backup & restore options',
+					'type' => 'backup',
 				],
 			],
 		];
-
 
 		return $meta_boxes;
 	}
