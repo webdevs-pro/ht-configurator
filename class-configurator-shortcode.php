@@ -139,8 +139,8 @@ class HT_Configurator {
 									<div class="htc-coupon-wrapper">
 										<div class="htc-section-heading"><?php echo $coupon; ?></div>
 										<div class="htc-coupon-field-wrapper">
-												<input type="text" name="coupon_code">
-												<button class="htc-apply-coupon"><?php echo $apply; ?></button>
+											<input type="text" name="coupon_code">
+											<button class="htc-apply-coupon"><?php echo $apply; ?></button>
 										</div>
 									</div>
 								</div>
@@ -151,12 +151,24 @@ class HT_Configurator {
 
 								<div class="htc-options-submit-section">
 
-									<input type="text" name="name">
-									<input type="email" name="email">
-									<input type="text" name="phone">
+									<label>
+										Name
+										<input type="text" name="name">
+									</label>
+
+									<label>
+										Email
+										<input type="email" name="email">
+									</label>
+
+									<label>
+										Phone
+										<input type="text" name="phone">
+									</label>
+
 
 									<?php if ( current_user_can( 'manage_options' ) ) : ?>
-										<div class="htc-section-heading">Admin only options</div>
+										<!-- <div class="htc-section-heading">Admin only options</div> -->
 										<label class="htc-simple-checkbox">
 											<input id="submit-to-woo-checkbox" type="checkbox" name="submit_to_woo" value="1">
 											<span>Submit to WooCommerce</span>

@@ -301,11 +301,20 @@
 
 /* --- Form footer --- */
 .htc-submit-wrapper {
-	background-color: #334;
-	padding: var(--pannel-padding);
+	background-color: #445;
+	padding: calc(var(--pannel-padding) + 2px);
 
 }
-button.htc-apply-coupon {
+.htc-submit-wrapper label {
+	color: #fff;
+	width: 100%;
+	margin-bottom: 15px;
+}
+.htc-submit-wrapper input {
+	color: var(--e-global-color-primary, #333);
+}
+
+button.htc-submit {
 	background-color: #007dd1;
 	color: #fff;
 	font-weight: bold;
@@ -313,7 +322,7 @@ button.htc-apply-coupon {
 	border: none;
 }
 
-button.htc-apply-coupon:focus,
-button.htc-apply-coupon:hover {
+button.htc-submit:focus,
+button.htc-submit:hover {
 	background-color: #007dd1bd;
 }
