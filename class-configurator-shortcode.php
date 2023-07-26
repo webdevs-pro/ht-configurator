@@ -124,23 +124,24 @@ class HT_Configurator {
 
 								
 								
-								$total = $settings['coupon_section_heading'] ?? 'Total';
-								$coupon = $settings['coupon_section_heading'] ?? 'Have a coupon code?';
-								$apply = $settings['coupon_section_apply_button_label'] ?? 'Apply';
+								$total_label = $settings['total_label'] ?? 'Total';
+								$coupon_section_heading = $settings['coupon_section_heading'] ?? 'Have a coupon code?';
+								$apply_button_label = $settings['coupon_section_apply_button_label'] ?? 'Apply';
+								$email_section_heading = $settings['email_section_heading'] ?? 'Personal information';
 								?>
 								<div class="htc-options-price-section">
 									<!-- total price section -->
 									<div class="htc-price-wrapper">
-										<div class="htc-section-heading"><?php echo $total; ?></div>
+										<div class="htc-section-heading"><?php echo $total_label; ?></div>
 										<div class="htc-total-price"></div>
 									</div>
 								
 									<!-- coupon section -->
 									<div class="htc-coupon-wrapper">
-										<div class="htc-section-heading"><?php echo $coupon; ?></div>
+										<div class="htc-section-heading"><?php echo $coupon_section_heading; ?></div>
 										<div class="htc-coupon-field-wrapper">
 											<input type="text" name="coupon_code">
-											<button class="htc-apply-coupon"><?php echo $apply; ?></button>
+											<button class="htc-apply-coupon"><?php echo $apply_button_label; ?></button>
 										</div>
 									</div>
 								</div>
@@ -151,32 +152,45 @@ class HT_Configurator {
 
 								<div class="htc-options-submit-section">
 
+									<div class="htc-section-heading"><?php echo $email_section_heading; ?></div>
+
 									<label>
-										Name
+										<span class="htc-required-mark">*</span>
+										<?php echo $settings['name_field_label'] ?? 'Name'; ?>
 										<input type="text" name="name">
 									</label>
 
 									<label>
-										Email
+										<span class="htc-required-mark">*</span>
+										<?php echo $settings['email_field_label'] ?? 'Email'; ?>
 										<input type="email" name="email">
 									</label>
 
 									<label>
-										Phone
+										<span class="htc-required-mark">*</span>
+										<?php echo $settings['phone_field_label'] ?? 'Phone'; ?>
 										<input type="text" name="phone">
 									</label>
+
+									<label class="htc-simple-checkbox">
+										<input type="checkbox" name="aceptance" value="1">
+										<span><?php echo $settings['acceptance_text'] ?? 'Acceptance text'; ?></span>
+									</label>
+
+									<p><?php echo '<a target="_blank" class="htc-tac-page-link" href="' . get_permalink( $settings['tac_page_id'] ) . '">' . get_the_title( $settings['tac_page_id'] ) . '</a>'; ?></p>
+
+									<button class="htc-submit"><?= $settings['submit_button_text'] ?? 'Submit'; ?></button> 
 
 
 									<?php if ( current_user_can( 'manage_options' ) ) : ?>
 										<!-- <div class="htc-section-heading">Admin only options</div> -->
 										<label class="htc-simple-checkbox">
-											<input id="submit-to-woo-checkbox" type="checkbox" name="submit_to_woo" value="1">
-											<span>Submit to WooCommerce</span>
-											<p>* as draft</p>
+											<input type="checkbox" name="submit_to_woo" value="1">
+											<span></span>
+											<span>Add as new product</span>
 										</label>
 									<?php endif; ?>
 									
-									<button class="htc-submit"><?= $settings['submit_button_text'] ?? 'Submit'; ?></button> 
 
 							
 								

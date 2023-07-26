@@ -236,8 +236,36 @@ class HT_Metabox {
 					'type' => 'text',
 				],
 				[
+					'name' => 'Total label',
+					'id'   => 'total_label',
+					'type' => 'text',
+				],
+				[
+					'type' => 'divider',
+				],
+				[
+					'name' => 'Name field label',
+					'id'   => 'name_field_label',
+					'type' => 'text',
+				],
+				[
+					'name' => 'Email field label',
+					'id'   => 'email_field_label',
+					'type' => 'text',
+				],
+				[
+					'name' => 'Phone field label',
+					'id'   => 'phone_field_label',
+					'type' => 'text',
+				],
+				[
+					'name' => 'Acceptance checkbox text',
+					'id'   => 'acceptance_text',
+					'type' => 'text',
+				],
+				[
 					'name'    => 'Terms and condition page',
-					'id'      => 'coupon_type',
+					'id'      => 'tac_page_id',
 					'type'    => 'select',
 					'placeholder' => 'Select page',
 					'options' => $this->get_pages_as_array(),
