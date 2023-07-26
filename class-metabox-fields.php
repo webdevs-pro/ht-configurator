@@ -13,7 +13,10 @@ class HT_Metabox {
 		add_filter( 'rwmb_meta_boxes', array( $this, 'add_settings_meta_boxes' ), 10);
 		add_filter( 'rwmb_meta_boxes', array( $this, 'add_options_meta_boxes' ), 10);
 		add_filter( 'rwmb_meta_boxes', array( $this, 'add_variations_meta_boxes' ), 10);
+		add_filter( 'rwmb_meta_boxes', array( $this, 'add_coupons_meta_boxes' ), 10);
 		add_action( 'admin_print_styles', array( $this, 'print_scripts_and_styles' ) );
+		add_filter( 'rwmb_coupon_field_meta', array( $this, 'add_empty_row_to_clonable_group' ), 1, 3 );
+
 	}
 
 
@@ -41,6 +44,41 @@ class HT_Metabox {
 			// wp_enqueue_style( 'codemirror-theme-3024-night', plugin_dir_url( __FILE__ ) . 'assets/3024-night.css' );
 			wp_enqueue_style( 'codemirror-theme-3024-night', plugin_dir_url( __FILE__ ) . 'assets/monokai.css' );
 		}
+	}
+
+
+
+
+
+
+
+
+
+
+	public function add_empty_row_to_clonable_group( $value, $field, $object_id ) {
+		if ( ! is_admin() ) {
+				return $value;
+		}
+
+		$default_group_item_fields = array();
+		$group_fields = array_column( $field['fields'], 'id' );
+		foreach ( $group_fields as $field_id ) {
+				$default_group_item_fields[$field_id] = '';
+		}
+
+		if ( is_array( $value) && count( $value ) >= 1 && ! empty( $value[0] ) ) {
+				array_unshift( $value, $default_group_item_fields );
+		}
+
+		?>
+		<style>
+				.hidden-first-item-clonable-group .rwmb-group-clone:first-child {
+					display: none;
+				}
+		</style>
+		<?php
+
+		return $value;
 	}
 
 
@@ -85,6 +123,17 @@ class HT_Metabox {
 			'icon_url'      => 'dashicons-admin-generic',
 			'tabs'          => [
 				'variations' => 'Variations',
+				'backup'     => 'Backup',
+			],
+		];
+		$settings_pages[] = [
+			'menu_title'    => 'Coupons',
+			'id'            => 'htc-coupons',
+			'parent'        => 'ht-configurator',
+			'columns'       => 1,
+			'icon_url'      => 'dashicons-admin-generic',
+			'tabs'          => [
+				'coupons' => 'Coupons',
 				'backup'     => 'Backup',
 			],
 		];
@@ -329,7 +378,7 @@ class HT_Metabox {
 
 	public function add_variations_meta_boxes( $meta_boxes ) {
 		$meta_boxes['htc_variations'] = [
-			'title'          => 'HT Variant Image Configurator',
+			'title'          => 'Variants Configurator',
 			'id'             => 'htc-variations',
 			'settings_pages' => ['htc-variations'],
 			'tab'            => 'variations',
@@ -404,6 +453,84 @@ class HT_Metabox {
 			'title'          => 'Backup & restore options',
 			'id'             => 'htc-variations-backup',
 			'settings_pages' => ['htc-variations'],
+			'tab'            => 'backup',
+			'fields'         => [
+				[
+					'name' => 'Backup & restore options',
+					'type' => 'backup',
+				],
+			],
+		];
+
+		return $meta_boxes;
+	}
+
+
+
+
+
+
+
+
+
+
+
+	public function add_coupons_meta_boxes( $meta_boxes ) {
+		$meta_boxes['htc_coupons'] = [
+			'title'          => 'HT Variant Image Configurator',
+			'id'             => 'htc-coupons',
+			'settings_pages' => ['htc-coupons'],
+			'tab'            => 'coupons',
+			'class' => 'hidden-first-item-clonable-group',
+			'fields'         => [
+				'coupons' => [
+					'name'          => '',
+					'id'            => 'coupon',
+					'type'          => 'group',
+					'collapsible'   => true,
+					'default_state' => 'collapsed',
+					'group_title'   => '{coupon_name} | {coupon_id} | {coupon_type} | {coupon_amount}',
+					'clone'         => true,
+					'sort_clone'    => true,
+					'add_button'    => 'Add coupon',
+					'fields'        => [
+						[
+							'name' => 'Name',
+							'id'   => 'coupon_name',
+							'type' => 'text',
+						],
+						[
+							'name' => 'Code',
+							'id'   => 'coupon_id',
+							'type' => 'text',
+						],
+						[
+							'name'    => 'Type',
+							'id'      => 'coupon_type',
+							'type'    => 'select',
+							'placeholder' => 'Select coupon type',
+							'options' => [
+								'percentage'    => 'Percentage',
+								'flat' => 'Flat',
+							]
+						],
+						[
+							'name' => 'Amount',
+							'id'   => 'coupon_amount',
+							'type' => 'number',
+							'step' => 0.01,
+						],
+					],
+				],
+			],
+		];
+
+
+
+		$meta_boxes[] = [
+			'title'          => 'Backup & restore options',
+			'id'             => 'htc-coupons-backup',
+			'settings_pages' => ['htc-coupons'],
 			'tab'            => 'backup',
 			'fields'         => [
 				[

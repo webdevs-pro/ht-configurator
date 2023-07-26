@@ -297,7 +297,9 @@ class HT_Configurator {
 
 		if ( 
 			$settings['request_email'] &&
-			$settings['request_email_live_mode'] 
+			( $settings['request_email_live_mode'] ||
+			   current_user_can( 'manage_options' )
+			)
 		) {
 			$send_email = $this->send_request_email( $form_fields, $settings );
 		}
