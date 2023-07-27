@@ -187,7 +187,7 @@ class HT_Configurator {
 										<label class="htc-simple-checkbox">
 											<input type="checkbox" name="submit_to_woo" value="1">
 											<span></span>
-											<span>Add as new product</span>
+											<span>Create new product on RMSPA</span>
 										</label>
 									<?php endif; ?>
 									
