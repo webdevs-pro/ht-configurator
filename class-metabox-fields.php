@@ -599,7 +599,7 @@ class HT_Metabox {
 					'type'          => 'group',
 					'collapsible'   => true,
 					'default_state' => 'collapsed',
-					'group_title'   => '{coupon_name} | {coupon_id} | {coupon_type} | {coupon_amount}',
+					'group_title'   => '{coupon_name} | {coupon_code} | {coupon_type} | {coupon_amount}',
 					'clone'         => true,
 					'sort_clone'    => true,
 					'add_button'    => 'Add coupon',
