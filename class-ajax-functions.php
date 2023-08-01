@@ -43,7 +43,10 @@ class HT_Configurator_Ajax {
 			$image_url = $image_src[0] ?? '';
 		}
 
-		return $image_url;
+		return array(
+			'image_id' => $image_id,
+			'image_url' => $image_url,
+		);
 	}
 
 
@@ -108,7 +111,9 @@ class HT_Configurator_Ajax {
 		$form_fields   = $_POST['form_fields'] ?? [];
 		$variations    = get_option( 'htc-variations' )['variation'] ?? [];
 		$coupons       = get_option( 'htc-coupons' )['coupon'] ?? [];
-		$image_url     = $this->get_matching_variation_image_url( $form_fields, $variations );
+		$image         = $this->get_matching_variation_image_url( $form_fields, $variations );
+		$image_id      = $image['image_id'];
+		$image_url     = $image['image_url'];
 		$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
 		$price         = 0;
 
@@ -142,6 +147,7 @@ class HT_Configurator_Ajax {
 		wp_send_json_success(
 			array(
 				'image_url' => $image_url,
+				'image_id' => $image_id,
 				'price'     => number_format( $price, 2, ',', '.') . '€',
 			)
 		);
@@ -159,10 +165,13 @@ class HT_Configurator_Ajax {
 	 * Handles the AJAX request for form submit and returns the message.
 	 */
 	public function ajax_htc_form_submit() {
+
+		// error_log( "_POST\n" . print_r( $_POST, true ) . "\n" );
+
 		$form_fields = $_POST['form_fields'] ?? [];
+		$image_id = $_POST['image_id'] ?? [];
 		$settings    = get_option( 'ht-configurator' );
 
-		error_log( "form_fields\n" . print_r( $form_fields, true ) . "\n" );
 
 		// form validation
 		if ( 
@@ -171,10 +180,6 @@ class HT_Configurator_Ajax {
 			! $form_fields['phone'][0] ||
 			! isset( $form_fields['aceptance'] )
 		) {
-
-
-
-			
 			wp_send_json_error( array( 
 				'message' => 'Bitte füllen Sie alle erforderlichen Formularfelder aus!',
 			) );
@@ -189,12 +194,12 @@ class HT_Configurator_Ajax {
 		}
 
 		if ( 
-			$settings['request_email'] &&
+			$settings['admin_email'] &&
 			( $settings['request_email_live_mode'] ||
 			   current_user_can( 'manage_options' )
 			)
 		) {
-			$send_email = $this->send_request_email( $form_fields, $settings );
+			$send_email = HT_Notifications::send_admin_email( $form_fields, $settings, $image_id );
 		}
 
 
@@ -224,65 +229,5 @@ class HT_Configurator_Ajax {
 
 	}
 
-
-
-
-
-
-
-	/**
-	 * Submit form data to remote WooCommerce.
-	 *
-	 * Handles the AJAX request for form submit and returns the message.
-	 */
-	private function send_request_email( $form_fields, $settings ) {
-		// to
-		$to            = $settings['request_email'];
-		$to            = explode( ',', $to );
-		$valid_emails  = array();
-		
-		foreach ( $to as $email ) {
-			 $sanitized_email = sanitize_email( $email );
-			 if ( is_email( $sanitized_email ) ) {
-				  $valid_emails[] = $sanitized_email;
-			 } else {
-				  error_log( "Invalid email address: $email" );
-			 }
-		}
-		
-		// subject
-		$subject = $settings['request_email_subject'];
-
-		// body
-		$option_groups = get_option( 'htc-options' )['options_group'] ?? [];
-		$body = '';
-		foreach ( $option_groups as $group ) {
-			if ( ! isset( $form_fields[ $group['id'] ] ) ) {
-				continue;
-			}
-
-			$body .= '<b>' . $group['label'] . '</b>: ';
-
-			$selected_option_labels = [];
-			foreach ( $form_fields[ $group['id'] ] as $selected_option_id ) {
-				foreach ( $group['options'] as $option ) {
-					if ( $option['id'] == $selected_option_id ) {
-						$selected_option_labels[] = $option['label'];
-					}
-				}
-			}
-
-			$body .= implode( ',', $selected_option_labels ) . '<br>';
-
-		}
-
-
-		// headers
-		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
-		
-
-		return wp_mail( $valid_emails, $subject, $body, $headers );
-
-	}
 }
 new HT_Configurator_Ajax();

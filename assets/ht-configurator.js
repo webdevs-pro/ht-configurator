@@ -51,7 +51,7 @@ jQuery(document).ready(function($) {
 		.done(function (response) {
 			// load image
 			if(response.data.image_url) {
-				configurator.find('.htc-image').attr('src', response.data.image_url)
+				configurator.find('.htc-image').attr('src', response.data.image_url).attr('data-image-id', response.data.image_id);
 			} else {
 				configurator.removeClass('htc-loading');
 			}
@@ -123,6 +123,7 @@ jQuery(document).ready(function($) {
 		var data = {
 			action: 'htc_form_submit', 
 			form_fields: form_fields,
+			image_id: configurator.find('.htc-image').attr('data-image-id')
 		};
 
 		$.post(

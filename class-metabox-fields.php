@@ -202,7 +202,7 @@ class HT_Metabox {
 			<div class="alert alert-warning">This is a custom HTML content</div>
 
 		<?php
-		$html = ob_get_clean();
+		$help_html = ob_get_clean();
 
 		$meta_boxes['htc-settings-support'] = [
 			'title'          => 'Support',
@@ -213,7 +213,7 @@ class HT_Metabox {
 			'fields'         => [
 				[
 					'type' => 'custom_html',
-					'std'  => $html,
+					'std'  => $help_html,
 				],
 			],
 		];
@@ -289,6 +289,27 @@ class HT_Metabox {
 		];
 
 
+		ob_start();
+			echo '<p>List of available shortcodes to use in Email</p>';
+			foreach ( HT_Notifications::get_email_shortcodes() as $shortcode => $description ) {
+				echo '<b>[' . $shortcode . ']</b> - ' . $description . '<br>';
+			}
+		$email_help_html = ob_get_clean();
+
+		$meta_boxes['htc-settings-email-help'] = [
+			'title'          => 'Help',
+			'id'             => 'htc-email-help-side',
+			'settings_pages' => ['ht-configurator'],
+			'context'        => 'side',
+			'tab'            => 'email',
+			'fields'         => [
+				[
+					'type' => 'custom_html',
+					'std'  => $email_help_html,
+				],
+			],
+		];
+
 		$meta_boxes['htc-settings-email'] = [
 			'title'          => 'Email',
 			'id'             => 'htc-settings-email',
@@ -296,21 +317,54 @@ class HT_Metabox {
 			'tab'            => 'email',
 			'fields'         => [
 				[
+					'type' => 'heading',
+					'name' => 'Admin Email',
+				],
+				[
 					'name' => 'Live mode',
 					'id'   => 'request_email_live_mode',
 					'type' => 'checkbox',
 					'desc' => 'If the checkbox is unchecked, only an administrator can send an email request.',
 				],
 				[
-					'name' => 'Email adress to send request',
-					'id'   => 'request_email',
+					'name' => 'Admin Email adress',
+					'id'   => 'admin_email',
 					'type' => 'text',
 					'desc' => 'List of email addresses separated by commas',
 				],
 				[
-					'name' => 'Email subject',
-					'id'   => 'request_email_subject',
+					'name' => 'Admin Email subject',
+					'id'   => 'admin_email_subject',
 					'type' => 'text',
+				],
+				[
+					'name'    => 'Admin Email body',
+					'id'      => 'admin_email_body_template',
+					'type'    => 'wysiwyg',
+					'raw'     => false,
+					'options' => [
+						'textarea_rows' => 10,
+						'teeny'         => false,
+					],
+				],
+				[
+					'type' => 'heading',
+					'name' => 'Client Email',
+				],
+				[
+					'name' => 'Client Email subject',
+					'id'   => 'client_email_subject',
+					'type' => 'text',
+				],
+				[
+					'name'    => 'Client Email body',
+					'id'      => 'client_email_body_template',
+					'type'    => 'wysiwyg',
+					'raw'     => false,
+					'options' => [
+						'textarea_rows' => 10,
+						'teeny'         => false,
+					],
 				],
 			],
 		];
