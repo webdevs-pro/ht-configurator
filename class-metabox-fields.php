@@ -135,7 +135,7 @@ class HT_Metabox {
 			'position'      => 4,
 			'columns'       => 2,
 			'submenu_title' => 'Settings',
-			'page_title'    => 'Test',
+			'page_title'    => 'Configurator settings',
 			'icon_url'      => 'dashicons-admin-generic',
 			'tabs'          => [
 				'general'         => 'General',
@@ -244,6 +244,11 @@ class HT_Metabox {
 					'type' => 'divider',
 				],
 				[
+					'name' => 'Email section heading',
+					'id'   => 'email_section_heading',
+					'type' => 'text',
+				],
+				[
 					'name' => 'Name field label',
 					'id'   => 'name_field_label',
 					'type' => 'text',
@@ -273,6 +278,11 @@ class HT_Metabox {
 				[
 					'name' => 'Submit button label',
 					'id'   => 'submit_button_text',
+					'type' => 'text',
+				],
+				[
+					'name' => 'Message on form submit',
+					'id'   => 'thankyou_text',
 					'type' => 'text',
 				],
 			],

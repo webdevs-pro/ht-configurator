@@ -323,10 +323,12 @@
 	width: 100%;
 	margin-top: 15px;
 }
+
 .htc-submit-wrapper input {
 	color: var(--e-global-color-primary, #333);
 	margin-top: 5px;
 }
+
 
 .htc-submit-wrapper .htc-tac-page-link {
 	display: inline-block;
@@ -348,4 +350,19 @@ button.htc-submit {
 button.htc-submit:focus,
 button.htc-submit:hover {
 	background-color: #007dd1bd;
+}
+button.htc-submit.disabled {
+	pointer-events: none;
+	opacity: 0.8;
+}
+
+
+
+.htc-form-success-message {
+	color: #fff;
+	margin-top: 10px;
+}
+.htc-form-error-message {
+	color: #ff8f8f;
+	margin-top: 10px;
 }

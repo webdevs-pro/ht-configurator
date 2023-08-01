@@ -154,32 +154,35 @@ class HT_Configurator {
 
 									<div class="htc-section-heading"><?php echo $email_section_heading; ?></div>
 
-									<label>
+									<label class="htc-name-field">
 										<span class="htc-required-mark">*</span>
 										<?php echo $settings['name_field_label'] ?? 'Name'; ?>
-										<input type="text" name="name">
+										<input type="text" name="name" autocomplete="on">
 									</label>
 
-									<label>
+									<label class="htc-email-field">
 										<span class="htc-required-mark">*</span>
 										<?php echo $settings['email_field_label'] ?? 'Email'; ?>
-										<input type="email" name="email">
+										<input type="email" name="email" autocomplete="on">
 									</label>
 
-									<label>
+									<label class="htc-phone-field">
 										<span class="htc-required-mark">*</span>
 										<?php echo $settings['phone_field_label'] ?? 'Phone'; ?>
-										<input type="text" name="phone">
+										<input type="text" name="phone" autocomplete="on">
 									</label>
 
-									<label class="htc-simple-checkbox">
-										<input type="checkbox" name="aceptance" value="1">
-										<span><?php echo $settings['acceptance_text'] ?? 'Acceptance text'; ?></span>
+									<label class="htc-simple-checkbox htc-aceptance-field">
+										<input type="checkbox" name="aceptance" value="1" data-required="true">
+										<span>* <?php echo $settings['acceptance_text'] ?? 'Acceptance text'; ?></span>
 									</label>
 
 									<p><?php echo '<a target="_blank" class="htc-tac-page-link" href="' . get_permalink( $settings['tac_page_id'] ) . '">' . get_the_title( $settings['tac_page_id'] ) . '</a>'; ?></p>
 
-									<button class="htc-submit"><?= $settings['submit_button_text'] ?? 'Submit'; ?></button> 
+									<button class="htc-submit"><?= $settings['submit_button_text'] ?? 'Submit'; ?></button>
+
+									<div class="htc-form-success-message"></div>
+									<div class="htc-form-error-message"></div>
 
 
 									<?php if ( current_user_can( 'manage_options' ) ) : ?>

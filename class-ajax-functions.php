@@ -162,6 +162,25 @@ class HT_Configurator_Ajax {
 		$form_fields = $_POST['form_fields'] ?? [];
 		$settings    = get_option( 'ht-configurator' );
 
+		error_log( "form_fields\n" . print_r( $form_fields, true ) . "\n" );
+
+		// form validation
+		if ( 
+			! $form_fields['name'][0] ||
+			! $form_fields['email'][0] ||
+			! $form_fields['phone'][0] ||
+			! isset( $form_fields['aceptance'] )
+		) {
+
+
+
+			
+			wp_send_json_error( array( 
+				'message' => 'Bitte füllen Sie alle erforderlichen Formularfelder aus!',
+			) );
+		}
+
+
 		if ( 
 			isset( $form_fields['submit_to_woo'] ) && 
 			$settings['woo_endpoint']
@@ -179,13 +198,15 @@ class HT_Configurator_Ajax {
 		}
 
 
+		if ( $send_email ) {
+			$success_message = $settings['thankyou_text'] ?? 'Submitted!';
+			wp_send_json_success(
+				array(
+					'message' => $success_message
+				)
+			);
+		}
 
-
-		wp_send_json_success(
-			array(
-				'message' => 'Submitted!'
-			)
-		);
 	}
 
 
@@ -259,11 +280,9 @@ class HT_Configurator_Ajax {
 		// headers
 		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 		
-		if ( wp_mail( $valid_emails, $subject, $body, $headers ) ) {
-			 error_log( 'Email successfully sent' );
-		} else {
-			 error_log( 'An unexpected error occurred' );
-		}
+
+		return wp_mail( $valid_emails, $subject, $body, $headers );
+
 	}
 }
 new HT_Configurator_Ajax();
