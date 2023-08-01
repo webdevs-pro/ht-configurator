@@ -703,6 +703,11 @@ class HT_Metabox {
 							'type' => 'number',
 							'step' => 0.01,
 						],
+						[
+							'name' => 'Coupon applied message',
+							'id'   => 'coupon_applied_message',
+							'type' => 'text',
+						],
 					],
 				],
 			],
