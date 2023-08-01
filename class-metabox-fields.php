@@ -341,7 +341,7 @@ class HT_Metabox {
 					'name'    => 'Admin Email body',
 					'id'      => 'admin_email_body_template',
 					'type'    => 'wysiwyg',
-					'raw'     => false,
+					'raw'     => true,
 					'options' => [
 						'textarea_rows' => 10,
 						'teeny'         => false,
@@ -360,7 +360,7 @@ class HT_Metabox {
 					'name'    => 'Client Email body',
 					'id'      => 'client_email_body_template',
 					'type'    => 'wysiwyg',
-					'raw'     => false,
+					'raw'     => true,
 					'options' => [
 						'textarea_rows' => 10,
 						'teeny'         => false,

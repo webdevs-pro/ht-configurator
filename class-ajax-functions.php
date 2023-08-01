@@ -181,7 +181,13 @@ class HT_Configurator_Ajax {
 			! isset( $form_fields['aceptance'] )
 		) {
 			wp_send_json_error( array( 
-				'message' => 'Bitte füllen Sie alle erforderlichen Formularfelder aus!',
+				'message' => 'Bitte füllen Sie alle erforderlichen Formularfelder aus',
+			) );
+		}
+
+		if ( ! is_email( $form_fields['email'][0] ) ) {
+			wp_send_json_error( array( 
+				'message' => 'Bitte geben Sie die richtige E-Mail-Adresse ein',
 			) );
 		}
 
@@ -199,17 +205,22 @@ class HT_Configurator_Ajax {
 			   current_user_can( 'manage_options' )
 			)
 		) {
-			$send_email = HT_Notifications::send_admin_email( $form_fields, $settings, $image_id );
+			$send_admin_email = HT_Notifications::send_admin_email( $form_fields, $settings, $image_id );
+			$send_client_email = HT_Notifications::send_client_email( $form_fields, $settings, $image_id );
 		}
 
 
-		if ( $send_email ) {
+		if ( $send_admin_email && $send_client_email ) {
 			$success_message = $settings['thankyou_text'] ?? 'Submitted!';
 			wp_send_json_success(
 				array(
 					'message' => $success_message
 				)
 			);
+		} else {
+			wp_send_json_error( array( 
+				'message' => 'Email not sent',
+			) );
 		}
 
 	}

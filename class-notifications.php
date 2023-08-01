@@ -12,8 +12,17 @@ class HT_Notifications {
 
 	}
 
+
+
+	/**
+	 * Send admin email containing form data and configuration image.
+	 *
+	 * @param array  $form_fields Form field data.
+	 * @param array  $settings    Notification settings.
+	 * @param int    $image_id    Attachment ID of the configuration image.
+	 * @return bool True if the email is sent successfully, false otherwise.
+	 */
 	public static function send_admin_email( $form_fields, $settings, $image_id ) {
-		// to
 		$to            = $settings['admin_email'];
 		$to            = explode( ',', $to );
 		$valid_emails  = array();
@@ -26,14 +35,8 @@ class HT_Notifications {
 				error_log( "Invalid email address: $email" );
 			}
 		}
-		
-		// subject
 		$subject = $settings['admin_email_subject'];
-
-		// body
 		$body = self::get_admin_email_body( $form_fields, $settings, $image_id  );
-
-		// headers
 		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 		
 		return wp_mail( $valid_emails, $subject, $body, $headers );
@@ -41,6 +44,30 @@ class HT_Notifications {
 
 
 
+	/**
+	 * Send client email containing form data.
+	 *
+	 * @param array  $form_fields Form field data.
+	 * @param array  $settings    Notification settings.
+	 * @param int    $image_id    Attachment ID of the configuration image.
+	 * @return bool True if the email is sent successfully, false otherwise.
+	 */
+	public static function send_client_email( $form_fields, $settings, $image_id ) {
+		$to            = $form_fields['email'];
+		$subject = $settings['client_email_subject'];
+		$body = self::get_client_email_body( $form_fields, $settings, $image_id  );
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+		
+		return wp_mail( $to, $subject, $body, $headers );
+	}
+
+
+
+	/**
+	 * Get email shortcodes with their descriptions.
+	 *
+	 * @return array An array of shortcodes and their descriptions.
+	 */
 	public static function get_email_shortcodes() {
 		return array(
 			'image' => 'Configuration image',
@@ -53,12 +80,45 @@ class HT_Notifications {
 
 
 
+	/**
+	 * Generate the admin email body by replacing shortcodes with form data.
+	 *
+	 * @param array  $form_fields Form field data.
+	 * @param array  $settings    Notification settings.
+	 * @param int    $image_id    Attachment ID of the configuration image.
+	 * @return string The parsed email body with shortcodes replaced.
+	 */
 	public static function get_admin_email_body( $form_fields, $settings, $image_id ) {
 		$template = $settings['admin_email_body_template'];
 		return self::parse_shortcodes( $template, $form_fields, $settings, $image_id );
 	}
 
 
+
+	/**
+	 * Generate the client email body by replacing shortcodes with form data.
+	 *
+	 * @param array  $form_fields Form field data.
+	 * @param array  $settings    Notification settings.
+	 * @param int    $image_id    Attachment ID of the configuration image.
+	 * @return string The parsed email body with shortcodes replaced.
+	 */
+	public static function get_client_email_body( $form_fields, $settings, $image_id ) {
+		$template = $settings['client_email_body_template'];
+		return self::parse_shortcodes( $template, $form_fields, $settings, $image_id );
+	}
+
+
+
+	/**
+	 * Parse shortcodes in the given template and replace them with form data.
+	 *
+	 * @param string $template    The email template containing shortcodes.
+	 * @param array  $form_fields Form field data.
+	 * @param array  $settings    Notification settings.
+	 * @param int    $image_id    Attachment ID of the configuration image.
+	 * @return string The parsed template with shortcodes replaced by form data.
+	 */
 	private static function parse_shortcodes( $template, $form_fields, $settings, $image_id ) {
 		$pattern  = '/\[(\w+)\]/';
 
