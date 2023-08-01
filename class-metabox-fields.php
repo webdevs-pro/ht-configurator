@@ -341,7 +341,7 @@ class HT_Metabox {
 					'name'    => 'Admin Email body',
 					'id'      => 'admin_email_body_template',
 					'type'    => 'wysiwyg',
-					'raw'     => true,
+					'raw'     => false,
 					'options' => [
 						'textarea_rows' => 10,
 						'teeny'         => false,
@@ -360,7 +360,7 @@ class HT_Metabox {
 					'name'    => 'Client Email body',
 					'id'      => 'client_email_body_template',
 					'type'    => 'wysiwyg',
-					'raw'     => true,
+					'raw'     => false,
 					'options' => [
 						'textarea_rows' => 10,
 						'teeny'         => false,
@@ -380,6 +380,15 @@ class HT_Metabox {
 					'name' => 'WooCommerce endpoint URL',
 					'id'   => 'woo_endpoint',
 					'type' => 'text',
+				],
+				[
+					'name' => 'Secret',
+					'id'   => 'woo_secret',
+					'type' => 'text',
+					'desc' => 'This field ONLY accepts these chars: a-z, 0-9, _ and - and the value remains the same for the sender and receiver.',
+					'attributes' => [
+						'oninput' => 'this.value = this.value.replace(/[^a-z0-9_-]/, \'\');',
+					],
 				],
 			],
 		];

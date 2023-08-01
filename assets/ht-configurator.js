@@ -143,9 +143,6 @@ jQuery(document).ready(function($) {
 			// configurator.removeClass('htc-loading');
 		})
 		.done(function (response) {
-
-			console.log('response', response);
-
 			configurator.removeClass('htc-loading');
 
 			if(response.data.message && !response.success) {
@@ -156,6 +153,10 @@ jQuery(document).ready(function($) {
 				configurator.find('.htc-form-success-message').text(response.data.message)
 				configurator.find('.htc-submit').addClass('disabled')
 			}
+
+			// Scroll the .htc-right-column to the bottom
+			var right_column = $('.htc-right-column');
+			right_column.scrollTop(right_column[0].scrollHeight);
 
 
 		});
