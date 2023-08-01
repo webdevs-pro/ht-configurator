@@ -143,6 +143,7 @@ class HT_Configurator {
 											<input type="text" name="coupon_code">
 											<button class="htc-apply-coupon"><?php echo $apply_button_label; ?></button>
 										</div>
+										<div class="htc-coupon-message"></div>
 									</div>
 								</div>
 
@@ -176,6 +177,8 @@ class HT_Configurator {
 										<input type="checkbox" name="aceptance" value="1" data-required="true">
 										<span>* <?php echo $settings['acceptance_text'] ?? 'Acceptance text'; ?></span>
 									</label>
+
+									<input type="hidden" name="price">
 
 									<p><?php echo '<a target="_blank" class="htc-tac-page-link" href="' . get_permalink( $settings['tac_page_id'] ) . '">' . get_the_title( $settings['tac_page_id'] ) . '</a>'; ?></p>
 

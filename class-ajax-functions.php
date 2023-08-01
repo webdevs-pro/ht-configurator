@@ -130,7 +130,9 @@ class HT_Configurator_Ajax {
 		}
 
 		// maybe apply coupon
-		if ( isset( $form_fields['coupon_code'][0] ) ) {
+		$coupon_message = '';
+		if ( isset( $form_fields['coupon_code'][0] ) && $form_fields['coupon_code'][0] ) {
+			$coupon_message = 'Falscher Gutscheincode!';
 			foreach ( $coupons as $coupon ) {
 				if ( $coupon['coupon_code'] == $form_fields['coupon_code'][0] ) {
 					if ( $coupon['coupon_type'] == 'flat' ) {
@@ -140,15 +142,17 @@ class HT_Configurator_Ajax {
 						$discount = $price / 100 * $coupon['coupon_amount'];
 						$price = $price - $discount;
 					}
+					$coupon_message = 'Gutschein angewendet!';
 				}
 			}
 		}
 
 		wp_send_json_success(
 			array(
-				'image_url' => $image_url,
-				'image_id' => $image_id,
-				'price'     => number_format( $price, 2, ',', '.') . '€',
+				'image_url'      => $image_url,
+				'image_id'       => $image_id,
+				'price'          => number_format( $price, 2, ',', '.') . '€',
+				'coupon_message' => $coupon_message,
 			)
 		);
 	}

@@ -292,7 +292,7 @@ class HT_Metabox {
 		ob_start();
 			echo '<p>List of available shortcodes to use in Email</p>';
 			foreach ( HT_Notifications::get_email_shortcodes() as $shortcode => $description ) {
-				echo '<b>[' . $shortcode . ']</b> - ' . $description . '<br>';
+				echo '[' . $shortcode . '] - ' . $description . '<br>';
 			}
 		$email_help_html = ob_get_clean();
 

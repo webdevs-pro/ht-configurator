@@ -59,6 +59,14 @@ jQuery(document).ready(function($) {
 			// set price
 			if(response.data.price) {
 				configurator.find('.htc-total-price').text(response.data.price)
+				configurator.find('input[name="price"]').val(response.data.price)
+			}
+
+			// set coupon message
+			if(response.data.coupon_message) {
+				configurator.find('.htc-coupon-message').text(response.data.coupon_message)
+			} else {
+				configurator.find('.htc-coupon-message').text('')
 			}
 
 		});

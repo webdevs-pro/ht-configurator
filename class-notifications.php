@@ -72,6 +72,8 @@ class HT_Notifications {
 		return array(
 			'image' => 'Configuration image',
 			'config' => 'Configuration options',
+			'price' => 'Configuration price',
+			'coupon' => 'Coupon',
 			'name' => 'Client name',
 			'email' => 'Client Email',
 			'phone' => 'Client phone',
@@ -162,17 +164,27 @@ class HT_Notifications {
 				
 
 				case 'name':
-					$replacement = $form_fields['name'];
+					$replacement = $form_fields['name'][0];
 					break;
 				
 
 				case 'email':
-					$replacement = $form_fields['email'];
+					$replacement = $form_fields['email'][0];
 					break;
 				
 
 				case 'phone':
-					$replacement = $form_fields['phone'];
+					$replacement = $form_fields['phone'][0];
+					break;
+				
+
+				case 'price':
+					$replacement = $form_fields['price'][0];
+					break;
+				
+
+				case 'coupon':
+					$replacement = $form_fields['coupon_code'][0];
 					break;
 	
 			}
