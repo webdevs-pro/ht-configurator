@@ -86,8 +86,8 @@ class HT_Configurator_Ajax {
 				}
 			}
 
-			if ( $match_count > $best_match_count ) {
-				$best_match = $variation;
+			if ( $match_count >= $best_match_count ) {
+				$best_match       = $variation;
 				$best_match_count = $match_count;
 			}
 		}

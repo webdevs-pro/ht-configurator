@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Hot Tube Configurator
  * Plugin URI: https://github.com/webdevs-pro/ht-configurator
- * Description: This is a plugin to provide a Hot Tube configuration shortcode.
- * Version: 0.17.2
+ * Description: This is a plugin to provide a HotTube configuration shortcode.
+ * Version: 0.17.3
  * Author: Alex Ishchenko
  * Author URI: https://website.cv.ua/
  * License: GPL2
