@@ -31,16 +31,33 @@ class HT_Notifications {
 			$sanitized_email = sanitize_email( $email );
 			if ( is_email( $sanitized_email ) ) {
 				$valid_emails[] = $sanitized_email;
-			} else {
-				error_log( "Invalid email address: $email" );
 			}
 		}
 		$subject = $settings['admin_email_subject'];
-		$body = self::get_admin_email_body( $form_fields, $settings, $image_id  );
-		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
-		
+		$body    = self::get_admin_email_body( $form_fields, $settings, $image_id  );
+
+		$headers = array();
+		$headers[] = 'Content-Type: text/html; charset=UTF-8';
+
+		if ( isset( $settings['admin_email_from_name'] ) && $settings['admin_email_from_name'] ) {
+			$from_name = $settings['admin_email_from_name'];
+		} else {
+			$from_name = 'WordPress';
+		}
+
+		if ( isset( $settings['admin_email_from_email'] ) && $settings['admin_email_from_email'] ) {
+			$from_email = $settings['admin_email_from_email'];
+		} else {
+			$site_url = get_site_url();
+			$domain = parse_url($site_url)['host'];
+			$from_email = 'wordpress@' . $domain;
+		}
+
+		$headers[] = 'From: ' . $from_name . ' <' . $from_email . '>';
+
 		return wp_mail( $valid_emails, $subject, $body, $headers );
 	}
+
 
 
 
@@ -53,10 +70,28 @@ class HT_Notifications {
 	 * @return bool True if the email is sent successfully, false otherwise.
 	 */
 	public static function send_client_email( $form_fields, $settings, $image_id ) {
-		$to            = $form_fields['email'];
+		$to      = $form_fields['email'];
 		$subject = $settings['client_email_subject'];
-		$body = self::get_client_email_body( $form_fields, $settings, $image_id  );
-		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+		$body    = self::get_client_email_body( $form_fields, $settings, $image_id  );
+		
+		$headers = array();
+		$headers[] = 'Content-Type: text/html; charset=UTF-8';
+
+		if ( isset( $settings['client_email_from_name'] ) && $settings['client_email_from_name'] ) {
+			$from_name = $settings['client_email_from_name'];
+		} else {
+			$from_name = 'WordPress';
+		}
+
+		if ( isset( $settings['client_email_from_email'] ) && $settings['client_email_from_email'] ) {
+			$from_email = $settings['client_email_from_email'];
+		} else {
+			$site_url = get_site_url();
+			$domain = parse_url($site_url)['host'];
+			$from_email = 'wordpress@' . $domain;
+		}
+		
+		$headers[] = 'From: ' . $from_name . ' <' . $from_email . '>';
 		
 		return wp_mail( $to, $subject, $body, $headers );
 	}

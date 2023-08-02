@@ -338,6 +338,16 @@ class HT_Metabox {
 					'type' => 'text',
 				],
 				[
+					'name' => 'Admin Email from name',
+					'id'   => 'admin_email_from_name',
+					'type' => 'text',
+				],
+				[
+					'name' => 'Admin Email from email',
+					'id'   => 'admin_email_from_email',
+					'type' => 'text',
+				],
+				[
 					'name'    => 'Admin Email body',
 					'id'      => 'admin_email_body_template',
 					'type'    => 'wysiwyg',
@@ -354,6 +364,16 @@ class HT_Metabox {
 				[
 					'name' => 'Client Email subject',
 					'id'   => 'client_email_subject',
+					'type' => 'text',
+				],
+				[
+					'name' => 'Client Email from name',
+					'id'   => 'client_email_from_name',
+					'type' => 'text',
+				],
+				[
+					'name' => 'Client Email from email',
+					'id'   => 'client_email_from_email',
 					'type' => 'text',
 				],
 				[

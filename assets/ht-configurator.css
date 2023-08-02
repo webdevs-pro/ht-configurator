@@ -127,6 +127,7 @@
 .htc-options-price-section button.htc-apply-coupon:focus,
 .htc-options-price-section button.htc-apply-coupon:hover {
 	background-color: #007dd1bd;
+	color: #fff;
 }
 .htc-options-price-section .htc-coupon-message[data-status="ok"] {
 	color: green;
