@@ -99,6 +99,7 @@
 
 .htc-options-price-section .htc-coupon-field-wrapper {
 	display: flex;
+	margin-bottom: 5px;
 }
 
 
@@ -127,7 +128,12 @@
 .htc-options-price-section button.htc-apply-coupon:hover {
 	background-color: #007dd1bd;
 }
-
+.htc-options-price-section .htc-coupon-message[data-status="ok"] {
+	color: green;
+}
+.htc-options-price-section .htc-coupon-message[data-status="error"] {
+	color: red;
+}
 
 
 

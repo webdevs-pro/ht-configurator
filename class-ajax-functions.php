@@ -130,9 +130,13 @@ class HT_Configurator_Ajax {
 		}
 
 		// maybe apply coupon
-		$coupon_message = '';
+		$coupon_message = array(
+			'status' => '',
+			'message' => ''
+		);
 		if ( isset( $form_fields['coupon_code'][0] ) && $form_fields['coupon_code'][0] ) {
-			$coupon_message = 'Falscher Gutscheincode!';
+			$coupon_message['message'] = 'Falscher Gutscheincode!';
+			$coupon_message['status'] = 'error';
 			foreach ( $coupons as $coupon ) {
 				if ( $coupon['coupon_code'] == $form_fields['coupon_code'][0] ) {
 					if ( $coupon['coupon_type'] == 'flat' ) {
@@ -142,7 +146,13 @@ class HT_Configurator_Ajax {
 						$discount = $price / 100 * $coupon['coupon_amount'];
 						$price = $price - $discount;
 					}
-					$coupon_message = 'Gutschein angewendet!';
+
+					$coupon_message['status'] = 'ok';
+					if ( isset( $coupon['coupon_applied_message'] ) && $coupon['coupon_applied_message'] ) {
+						$coupon_message['message'] = $coupon['coupon_applied_message'];
+					} else {
+						$coupon_message['message'] = 'Gutschein angewendet!';
+					}
 				}
 			}
 		}

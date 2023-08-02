@@ -63,10 +63,13 @@ jQuery(document).ready(function($) {
 			}
 
 			// set coupon message
-			if(response.data.coupon_message) {
-				configurator.find('.htc-coupon-message').text(response.data.coupon_message)
+			var coupon_message_el = configurator.find('.htc-coupon-message');
+			if(response.data.coupon_message.message) {
+				coupon_message_el.text(response.data.coupon_message.message)
+				coupon_message_el.attr('data-status', response.data.coupon_message.status)
 			} else {
-				configurator.find('.htc-coupon-message').text('')
+				coupon_message_el.text('')
+				coupon_message_el.attr('data-status', '')
 			}
 
 		});
